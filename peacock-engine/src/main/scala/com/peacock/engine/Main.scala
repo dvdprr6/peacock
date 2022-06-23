@@ -11,7 +11,7 @@ import java.io.IOException
 object Main extends zio.App {
   private val PEACOCK_ENGINE ="peacock-engine"
 
-  private val app = Http.collectZIO[Request]{
+  private def app(text: String): Http[Any, Nothing, Request, Response] = Http.collectZIO[Request] {
     case Method.GET -> !! / PEACOCK_ENGINE / "fruits" => ZIO.succeed(Response.text("Apple"))
   }
 
@@ -19,5 +19,5 @@ object Main extends zio.App {
     Middleware.debug ++ Middleware.addHeader("X-Environment", "Dev")
 
   override def run(args: List[String]): URIO[zio.ZEnv, ExitCode] =
-    Server.start(8090, app @@ middlewares).exitCode
+    Server.start(8090, app("yee") @@ middlewares).exitCode
 }

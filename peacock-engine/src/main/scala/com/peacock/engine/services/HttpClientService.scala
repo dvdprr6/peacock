@@ -16,7 +16,7 @@ object HttpClientService {
 
   lazy val live: RLayer[ZEnv, HttpClientServiceEnv] =
     ZLayer.succeed((apiKey, url) => {
-      val headers = Headers.apply("apikey", apikey)
+      val headers = Headers.apply("apikey", apiKey)
 
       for{
         response <- Client.request(url = url, method = Method.GET, headers = headers).provideCustomLayer(ChannelFactory.auto ++ EventLoopGroup.auto())
