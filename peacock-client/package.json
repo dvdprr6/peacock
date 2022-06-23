@@ -2,6 +2,8 @@
   "name": "peacock-client",
   "version": "0.1.0",
   "private": true,
+  "main": "src/main.js",
+  "homepage": "./",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -32,14 +34,14 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "react:start": "craco start",
-    "react:build": "craco build",
-    "react:test": "craco test",
-    "react:eject": "craco eject",
+    "react:start": "react-scripts start",
+    "react:build": "react-scripts build",
+    "react:test": "react-scripts test",
+    "react:eject": "react-scripts eject",
     "electron:build": "electron-builder",
     "release": "rimraf build && rimraf dist && yarn react:build && electron-builder --publish=never",
     "build": "rimraf build && rimraf dist && yarn react:build && yarn electron:build",
-    "start": "concurrently \"cross-env BROWSER=none yarn react:start\" \"wait-on http://localhost:3000 && electron .\""
+    "start": "concurrently \"cross-env BROWSER=none npm run react:start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": [
