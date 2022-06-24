@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      /** RENDERER ALIASES */
+      "@peacock-renderer-component-commons": ["src/renderer/components/commons*", "src/renderer/components/commons"],
+      "@peacock-renderer-components": ["src/renderer/components*", "src/renderer/components"],
+      "@peacock-renderer-reducers": ["src/renderer/reducers*", "src/renderer/reducers"],
+      "@peacock-renderer-models": ["src/renderer/models*", "src/renderer/models"],
+      "@peacock-renderer-utils": ["src/renderer/utils*", "src/renderer/utils"]
+    }
+  }
+}
