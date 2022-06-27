@@ -1,12 +1,11 @@
 import React from 'react'
 import { createTheme, CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
-import { store, history } from '@peacock-renderer-reducers'
+import { store } from '@peacock-renderer-reducers'
 import { Provider } from 'react-redux'
-import { ConnectedRouter } from 'connected-react-router'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Home, DashboardPage } from '@peacock-renderer-components'
-import { DASHBOARD_REDIRECT} from '@peacock-renderer-utils'
+import { Home, DashboardPage, SettingsPage } from '@peacock-renderer-components'
+import { DASHBOARD_REDIRECT, SETTINGS_REDIRECT } from '@peacock-renderer-utils'
 
 const theme = createTheme({
   palette: {
@@ -73,31 +72,12 @@ const App = () => {
           <Routes>
             <Route path={'/'} element={<Home />} />
             <Route path={DASHBOARD_REDIRECT} element={<DashboardPage />} />
+            <Route path={SETTINGS_REDIRECT} element={<SettingsPage />} />
           </Routes>
         </BrowserRouter>
       </Provider>
     </ThemeProvider>
   )
 }
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   )
-// }
 
 export default App
