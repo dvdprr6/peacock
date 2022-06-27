@@ -1,193 +1,199 @@
-import {FC, ReactNode, useState} from 'react'
-import { makeStyles } from '@mui/styles'
-import {
-  AppBar, Badge, Container,
-  Divider, Drawer, IconButton,
-  List, ListItem, ListItemButton,
-  ListItemIcon, Theme, Tooltip,
-  Box, Toolbar, Typography, Link
-} from '@mui/material'
+import React, { FC, ReactNode } from 'react'
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import MuiDrawer from '@mui/material/Drawer'
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+import List from '@mui/material/List'
+import CssBaseline from '@mui/material/CssBaseline'
+import Typography from '@mui/material/Typography'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import MenuIcon from '@mui/icons-material/Menu'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemIcon from '@mui/material/ListItemIcon'
+import ListItemText from '@mui/material/ListItemText'
+import InboxIcon from '@mui/icons-material/MoveToInbox'
+import MailIcon from '@mui/icons-material/Mail'
+import Container from '@mui/material/Container'
 
-import NotificationsIcon from '@mui/icons-material/Notifications'
-import { Dashboard } from '@mui/icons-material'
-import clsx from 'clsx'
+const drawerWidth = 240;
 
-const drawerWidth = 240
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    display: 'flex',
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
   },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
+});
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})<AppBarProps>(({ theme, open }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  transition: theme.transitions.create(['width', 'margin'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
+  }),
+}));
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
     }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
     }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(8),
-    },
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
-  container: {
-    padding: theme.spacing(3)
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
-}))
+  }),
+);
 
 const Navigation: FC<{ component: ReactNode }> = (props) => {
   const { component: Component } = props
-  const classes = useStyles()
-  const [open] = useState<boolean>(false)
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
   return (
-    <Box sx={{display: 'flex'}}>
-      <AppBar
-        position={'absolute'}
-        className={classes.appBar}
-      >
-        <Toolbar className={classes.toolbar}>
-          <Typography component='h1' variant='h6' color='inherit' noWrap className={classes.title}>
-            Giraffe Client
-          </Typography>
-          <IconButton color='inherit'>
-            <Badge badgeContent={4} color='secondary'>
-              <NotificationsIcon />
-            </Badge>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <AppBar position="fixed" open={open}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
           </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            Mini variant drawer
+          </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant={'permanent'}
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose)
-        }}
-        open={open}
-      >
-        <Box className={classes.toolbarIcon} />
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </DrawerHeader>
         <Divider />
-        {/*<List>*/}
-        {/*  <ListItemButton component={Link} href={'/Dashboard'}>*/}
-        {/*    <ListItemIcon>*/}
-        {/*      <Dashboard />*/}
-        {/*    </ListItemIcon>*/}
-        {/*  </ListItemButton>*/}
-        {/*</List>*/}
-        {/*<List>*/}
-        {/*  <Tooltip title={'Dashboard'} arrow placement={'right'}>*/}
-        {/*    <ListItem disablePadding>*/}
-        {/*      <ListItemButton>*/}
-        {/*        <Link href={'/dashboard'}>*/}
-        {/*          <ListItemIcon>*/}
-        {/*            <DashboardIcon />*/}
-        {/*          </ListItemIcon>*/}
-        {/*        </Link>*/}
-        {/*      </ListItemButton>*/}
-        {/*    </ListItem>*/}
-        {/*  </Tooltip>*/}
-        {/*  <Tooltip title={'Mapping'} arrow placement={'right'}>*/}
-        {/*    <ListItem disablePadding>*/}
-        {/*      <ListItemButton>*/}
-        {/*        <Link href={'/mapping'}>*/}
-        {/*          <ListItemIcon>*/}
-        {/*            <MapIcon />*/}
-        {/*          </ListItemIcon>*/}
-        {/*        </Link>*/}
-        {/*      </ListItemButton>*/}
-        {/*    </ListItem>*/}
-        {/*  </Tooltip>*/}
-        {/*  <Tooltip title={'Rule'} arrow placement={'right'}>*/}
-        {/*    <ListItem disablePadding>*/}
-        {/*      <ListItemButton>*/}
-        {/*        <Link href={'/rule'}>*/}
-        {/*          <ListItemIcon>*/}
-        {/*            <RuleIcon />*/}
-        {/*          </ListItemIcon>*/}
-        {/*        </Link>*/}
-        {/*      </ListItemButton>*/}
-        {/*    </ListItem>*/}
-        {/*  </Tooltip>*/}
-        {/*  <Tooltip title={'Job'} arrow placement={'right'}>*/}
-        {/*    <ListItem disablePadding>*/}
-        {/*      <ListItemButton>*/}
-        {/*        <Link href={'/job'}>*/}
-        {/*          <ListItemIcon>*/}
-        {/*            <WorkIcon />*/}
-        {/*          </ListItemIcon>*/}
-        {/*        </Link>*/}
-        {/*      </ListItemButton>*/}
-        {/*    </ListItem>*/}
-        {/*  </Tooltip>*/}
-        {/*</List>*/}
+        <List>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider />
+        <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </Drawer>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container
-          maxWidth={'xl'}
-          className={classes.container}
-        >
-          <div>{Component}</div>
-        </Container>
-      </main>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <DrawerHeader />
+          <Container
+            maxWidth={'xl'}
+            //className={classes.container}
+          >
+            <div>{Component}</div>
+          </Container>
+      </Box>
     </Box>
-  )
+  );
 }
 
 export default Navigation
