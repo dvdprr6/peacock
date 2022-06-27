@@ -1,7 +1,8 @@
 package com.peacock.engine.models
 
 case class CommandLineOptions(
-                               apikey: String,
+                               clientId: String,
+                               clientSecret: String,
                                url: String,
                                username: String,
                                password: String

@@ -25,7 +25,7 @@ object Main extends zio.App {
     } yield()).exitCode
 
   private def app(params: CommandLineOptions): Http[Any, Nothing, Request, Response] = Http.collectZIO[Request] {
-    case Method.GET -> !! / PEACOCK_ENGINE / "fruits" => ZIO.succeed(Response.text(params.url))
+    case Method.GET -> !! / PEACOCK_ENGINE / "run" => ZIO.succeed(Response.text(params.url))
   }
 
   private val middlewares: HttpMiddleware[Console with Clock, IOException] =
@@ -38,4 +38,6 @@ object Main extends zio.App {
 
   private lazy val commandLineOptionsLayer: ZLayer[ZEnv, Nothing, CommandLineOptionCompositionEnv] =
     CommandLineOptionService.live >>> CommandLineOptionComposition.live
+
+  private def
 }

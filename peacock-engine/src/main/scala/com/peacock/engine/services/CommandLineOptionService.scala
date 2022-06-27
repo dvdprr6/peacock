@@ -11,7 +11,8 @@ object CommandLineOptionService {
     def parseCommandLineOptions(): UIO[Command[CommandLineOptions]]
   }
 
-  private val apikey: Options[String] = Options.text("apikey")
+  private val clientId: Options[String] = Options.text("clientId")
+  private val clientSecret: Options[String] = Options.text("clientSecret")
   private val url: Options[String] = Options.text("url")
   private val username: Options[String] = Options.text("username")
   private val password: Options[String] = Options.text("password")
@@ -22,7 +23,7 @@ object CommandLineOptionService {
   lazy val live: URLayer[ZEnv, CommandLineOptionServiceEnv] =
     ZLayer.succeed(() => {
       UIO{
-        val options = (apikey ++ url ++ username ++ password).as(CommandLineOptions)
+        val options = (clientId ++ clientSecret ++ url ++ username ++ password).as(CommandLineOptions)
         Command("Peacock Engine", options)
       }
     })
