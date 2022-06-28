@@ -9,7 +9,6 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Typography from '@mui/material/Typography'
 import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
-import MenuIcon from '@mui/icons-material/Menu'
 import Dashboard from '@mui/icons-material/Dashboard'
 import Settings from '@mui/icons-material/Settings'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
@@ -110,18 +109,18 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
+          {/*<IconButton*/}
+          {/*  color="inherit"*/}
+          {/*  aria-label="open drawer"*/}
+          {/*  onClick={handleDrawerOpen}*/}
+          {/*  edge="start"*/}
+          {/*  sx={{*/}
+          {/*    marginRight: 5,*/}
+          {/*    ...(open && { display: 'none' }),*/}
+          {/*  }}*/}
+          {/*>*/}
+          {/*  <MenuIcon />*/}
+          {/*</IconButton>*/}
           <Typography variant="h6" noWrap component="div">
             Peacock Client
           </Typography>
