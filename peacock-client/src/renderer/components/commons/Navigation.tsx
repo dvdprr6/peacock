@@ -20,7 +20,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Container from '@mui/material/Container'
 import { DASHBOARD_REDIRECT, SETTINGS_REDIRECT } from '@peacock-renderer-utils'
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -28,8 +28,8 @@ const openedMixin = (theme: Theme): CSSObject => ({
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden',
-});
+  overflowX: 'hidden'
+})
 
 const closedMixin = (theme: Theme): CSSObject => ({
   transition: theme.transitions.create('width', {
@@ -39,9 +39,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
   overflowX: 'hidden',
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
+    width: `calc(${theme.spacing(8)} + 1px)`
+  }
+})
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -49,11 +49,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
+  ...theme.mixins.toolbar
+}))
 
 interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
+  open?: boolean
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -62,17 +62,17 @@ const AppBar = styled(MuiAppBar, {
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
+      duration: theme.transitions.duration.enteringScreen
+    })
+  })
+}))
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -82,27 +82,19 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     boxSizing: 'border-box',
     ...(open && {
       ...openedMixin(theme),
-      '& .MuiDrawer-paper': openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme)
     }),
     ...(!open && {
       ...closedMixin(theme),
-      '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-  }),
-);
+      '& .MuiDrawer-paper': closedMixin(theme)
+    })
+  })
+)
 
 const Navigation: FC<{ component: ReactNode }> = (props) => {
   const { component: Component } = props
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const theme = useTheme()
+  const [open, setOpen] = React.useState(false)
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -112,7 +104,7 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
           {/*<IconButton*/}
           {/*  color="inherit"*/}
           {/*  aria-label="open drawer"*/}
-          {/*  onClick={handleDrawerOpen}*/}
+          {/*  onClick={() => setOpen(true))}*/}
           {/*  edge="start"*/}
           {/*  sx={{*/}
           {/*    marginRight: 5,*/}
@@ -128,7 +120,7 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={() => setOpen(false)}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
@@ -161,7 +153,7 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
           </Container>
       </Box>
     </Box>
-  );
+  )
 }
 
 export default Navigation

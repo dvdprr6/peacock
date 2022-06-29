@@ -1,3 +1,4 @@
 rootProject.name = 'peacock'
 include 'peacock-engine'
+include 'peacock-api'
 
