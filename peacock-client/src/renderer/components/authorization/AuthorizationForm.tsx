@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { Button, Grid, Typography } from '@mui/material'
 import { TextFieldControl } from '@peacock-renderer-component-commons'
 
-const SettingsForm: FC<TSpotifyAccessForm> = (props) => {
+const AuthorizationForm: FC<TSpotifyAccessForm> = (props) => {
   const { clientId, clientSecret } = props
   const { control, handleSubmit, reset } = useForm<TSpotifyAccessForm>()
 
@@ -15,7 +15,7 @@ const SettingsForm: FC<TSpotifyAccessForm> = (props) => {
   return(
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant={'h5'}>Spotify Access</Typography>
+        <Typography variant={'h5'}>Spotify Authorization</Typography>
       </Grid>
       <Grid item xs={12}>
         <Controller
@@ -62,4 +62,4 @@ const SettingsForm: FC<TSpotifyAccessForm> = (props) => {
   )
 }
 
-export default SettingsForm
+export default AuthorizationForm

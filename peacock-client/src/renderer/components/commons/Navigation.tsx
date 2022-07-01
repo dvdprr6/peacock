@@ -13,12 +13,13 @@ import Dashboard from '@mui/icons-material/Dashboard'
 import Settings from '@mui/icons-material/Settings'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import VpnKeyIcon from '@mui/icons-material/VpnKey'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Container from '@mui/material/Container'
-import { DASHBOARD_REDIRECT, SETTINGS_REDIRECT } from '@peacock-renderer-utils'
+import { DASHBOARD_REDIRECT, AUTHORIZATION_REDIRECT } from '@peacock-renderer-utils'
 
 const drawerWidth = 240
 
@@ -99,7 +100,7 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position='fixed' open={open}>
         <Toolbar>
           {/*<IconButton*/}
           {/*  color="inherit"*/}
@@ -113,12 +114,12 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
           {/*>*/}
           {/*  <MenuIcon />*/}
           {/*</IconButton>*/}
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant='h6' noWrap component='div'>
             Peacock Client
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant='permanent' open={open}>
         <DrawerHeader>
           <IconButton onClick={() => setOpen(false)}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
@@ -135,16 +136,16 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>
-            <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }} href={SETTINGS_REDIRECT}>
+            <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }} href={AUTHORIZATION_REDIRECT}>
               <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}>
-                <Settings />
+                <VpnKeyIcon />
               </ListItemIcon>
-              <ListItemText primary={'Settings'} sx={{ opacity: open ? 1 : 0 }} />
+              <ListItemText primary={'Authorization'} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
           <Container
             maxWidth={'xl'}

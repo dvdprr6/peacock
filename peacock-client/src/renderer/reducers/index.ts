@@ -4,7 +4,7 @@ import {
   getSpotifyAccessTokens,
   activateSpotifyAccess,
   authorizationReducer
-} from './settings'
+} from './authorization'
 
 const rootReducers = combineReducers({
   authorization: authorizationReducer
