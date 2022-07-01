@@ -2,15 +2,22 @@ import React, {FC} from 'react'
 import { TSpotifyAccessForm } from '@peacock-renderer-models'
 import { Controller, useForm } from 'react-hook-form'
 import { Button, Grid, Typography } from '@mui/material'
-import { TextFieldControl } from '@peacock-renderer-component-commons'
+import { TextFieldControl, Spinner } from '@peacock-renderer-component-commons'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
 
-const AuthorizationForm: FC<TSpotifyAccessForm> = (props) => {
-  const { clientId, clientSecret } = props
-  const { control, handleSubmit, reset } = useForm<TSpotifyAccessForm>()
+const schema = yup.object().shape({
+  clientId: yup.string().required('Is Required'),
+  clientSecret: yup.string().required('Is Required')
+})
 
-  const onSubmit = (form: TSpotifyAccessForm) => {
-
-  }
+const AuthorizationForm: FC<{
+  onSubmit: (form: TSpotifyAccessForm) => void
+  loading: boolean
+  initialValues: TSpotifyAccessForm
+}> = (props) => {
+  const { onSubmit, loading, initialValues } = props
+  const { control, handleSubmit } = useForm<TSpotifyAccessForm>({ resolver: yupResolver(schema) })
 
   return(
     <Grid container spacing={2}>
@@ -19,7 +26,7 @@ const AuthorizationForm: FC<TSpotifyAccessForm> = (props) => {
       </Grid>
       <Grid item xs={12}>
         <Controller
-          defaultValue={clientId}
+          defaultValue={initialValues.clientId}
           name={'clientId'}
           control={control}
           render={({ field: { value, onChange }, formState: { errors } }) =>(
@@ -29,13 +36,14 @@ const AuthorizationForm: FC<TSpotifyAccessForm> = (props) => {
               onChange={onChange}
               type={'password'}
               required
+              errors={errors.clientId?.message}
             />
           )}
         />
       </Grid>
       <Grid item xs={12}>
         <Controller
-          defaultValue={clientSecret}
+          defaultValue={initialValues.clientSecret}
           name={'clientSecret'}
           control={control}
           render={({ field: { value, onChange }, formState: { errors } }) =>(
@@ -45,6 +53,7 @@ const AuthorizationForm: FC<TSpotifyAccessForm> = (props) => {
               onChange={onChange}
               type={'password'}
               required
+              errors={errors.clientSecret?.message}
             />
           )}
         />
@@ -53,7 +62,9 @@ const AuthorizationForm: FC<TSpotifyAccessForm> = (props) => {
         <Button
           variant={'outlined'}
           color={'primary'}
+          disabled={loading}
           onClick={handleSubmit(onSubmit)}
+          startIcon={loading ? <Spinner /> : <div></div>}
         >
           Activate
         </Button>
