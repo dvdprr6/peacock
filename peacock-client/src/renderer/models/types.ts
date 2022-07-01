@@ -1,6 +1,6 @@
 export type TSpotifyAccessDto = {
-  clientId: String
-  clientSecret: String
+  clientId: string
+  clientSecret: string
 }
 
 export type TSpotifyAccessForm = TSpotifyAccessDto
