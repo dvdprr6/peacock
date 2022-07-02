@@ -36,6 +36,9 @@ const authorizationWindow = async (spotifyAccessDto) => {
     const callbackUrl = new URL(url)
     const authorizationCode = callbackUrl.searchParams.get('code')
 
+    console.log("authorization code ".concat(authorizationCode))
+
+    // TODO: refactor this to peacock-api
     const urlParams = new URLSearchParams()
     urlParams.append('grant_type', 'authorization_code')
     urlParams.append('code', authorizationCode)
