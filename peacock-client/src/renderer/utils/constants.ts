@@ -6,6 +6,7 @@ export const IPC_ACTIVATE_AUTHORIZATION = 'IPC_ACTIVATE_AUTHORIZATION'
 export const DASHBOARD_REDIRECT = '/dashboard'
 export const HISTORY_REDIRECT = '/history'
 export const AUTHORIZATION_REDIRECT = '/authorization'
+export const USER_REDIRECT = '/user'
 
 /** REDUCER CONSTANTS */
 export const SPOTIFY_ACCESS_TOKEN_SLICE = 'spotifyAccessToken'
