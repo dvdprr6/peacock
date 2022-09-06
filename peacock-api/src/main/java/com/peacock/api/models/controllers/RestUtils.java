@@ -73,8 +73,8 @@ public abstract class RestUtils {
         return new ResponseEntity<DTO>(HttpStatus.NO_CONTENT);
     }
 
-    protected <DTO extends IDto> ResponseEntity<List<DTO>> internalServerError(){
-        return new ResponseEntity<List<DTO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+    protected <DTO extends IDto> ResponseEntity internalServerError(){
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     protected <DTO extends IDto> ResponseEntity<PayloadCollectionDto<DTO>> internalServerError(PayloadCollectionDto<DTO> payloadDto){

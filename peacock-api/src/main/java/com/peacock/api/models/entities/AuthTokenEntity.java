@@ -1,20 +1,31 @@
-package com.peacock.api.models.dto;
+package com.peacock.api.models.entities;
 
-public class AuthTokenDto implements IDto {
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "pc_auth_token")
+public class AuthTokenEntity implements IEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
+    @Column(name = "client_id")
     private String clientId;
+
+    @Column(name = "client_secret")
     private String clientSecret;
 
+    @Column(name = "url")
     private String url;
-
-    public AuthTokenDto(){}
-
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getClientId() {
