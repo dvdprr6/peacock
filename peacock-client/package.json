@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.9.3",
     "@hookform/resolvers": "^2.9.3",
     "@hookform/strictly-typed": "^0.0.4",
+    "@material-table/core": "^0.2.35",
     "@mui/icons-material": "^5.8.4",
     "@mui/lab": "^5.0.0-alpha.87",
     "@mui/material": "^5.8.5",

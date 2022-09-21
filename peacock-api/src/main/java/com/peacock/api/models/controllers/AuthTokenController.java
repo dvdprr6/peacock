@@ -1,6 +1,5 @@
 package com.peacock.api.models.controllers;
 
-import com.peacock.api.commons.dto.PayloadCollectionDto;
 import com.peacock.api.models.dto.AuthTokenDto;
 import com.peacock.api.models.services.AuthTokenService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,6 +3,7 @@ const IPC_GET_AUTHORIZATION = 'IPC_GET_AUTHORIZATION'
 const IPC_ACTIVATE_AUTHORIZATION = 'IPC_ACTIVATE_AUTHORIZATION'
 
 /** SCOPES */
+// REFERENCE: https://developer.spotify.com/documentation/general/guides/authorization/scopes/
 const SCOPES_LISTENING_HISTORY = 'user-read-recently-played user-top-read user-read-playback-position'
 const SCOPES_USERS = 'user-read-email user-read-private'
 const SCOPES_SPOTIFY_CONNECT = 'user-read-playback-state user-read-currently-playing'

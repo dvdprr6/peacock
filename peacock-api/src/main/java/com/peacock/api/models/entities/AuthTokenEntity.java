@@ -2,6 +2,7 @@ package com.peacock.api.models.entities;
 
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "pc_auth_token")
@@ -11,14 +12,30 @@ public class AuthTokenEntity implements IEntity{
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "client_id")
     private String clientId;
 
     @Column(name = "client_secret")
     private String clientSecret;
 
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
+    @Column(name = "access_token")
+    private String accessToken;
+
     @Column(name = "url")
     private String url;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy(value = "id ASC")
+    @JoinColumn(name = "auth_token_id")
+    private Set<ScopeEntity> scopes;
+
+    public AuthTokenEntity() {}
 
     public void setId(Long id) {
         this.id = id;
@@ -26,6 +43,14 @@ public class AuthTokenEntity implements IEntity{
 
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getClientId() {
@@ -44,11 +69,35 @@ public class AuthTokenEntity implements IEntity{
         this.clientSecret = clientSecret;
     }
 
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Set<ScopeEntity> getScopes() {
+        return scopes;
+    }
+
+    public void setScopes(Set<ScopeEntity> scopes) {
+        this.scopes = scopes;
     }
 }

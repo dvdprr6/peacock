@@ -15,3 +15,9 @@ export const SPOTIFY_ACCESS_SLICE = 'authorizeSpotifyAccess'
 /** THUNK CONSTANTS */
 export const GET_SPOTIFY_TOKENS_THUNK = 'authorization/getTokens'
 export const GET_SPOTIFY_ACCESS_THUNK = 'authorization/getAccess'
+
+export const MATERIAL_TABLE_OPTIONS = {
+  actionsColumnIndex: -1,
+  pageSize: 10,
+  maxBodyHeight: 740,
+}

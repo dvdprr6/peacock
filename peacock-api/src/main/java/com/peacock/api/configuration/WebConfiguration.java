@@ -1,8 +1,10 @@
 package com.peacock.api.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -11,5 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @ComponentScan(basePackages = { "com.peacock.api.models.controllers" })
 @Import(value = { PersistenceConfiguration.class })
 public class WebConfiguration extends WebMvcConfigurationSupport {
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
 
 }
