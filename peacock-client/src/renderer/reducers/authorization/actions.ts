@@ -21,6 +21,6 @@ export const getSpotifyAccess = createAsyncThunk(GET_SPOTIFY_ACCESS_THUNK, async
 })
 
 export const getAuthTokens = createAsyncThunk(GET_AUTH_TOKENS_THUNK, async () => {
-  const authTokensDto: TSpotifyAccessDto = await ipcRenderer.invoke(IPC_ACTIVATE_AUTHORIZATION)
+  const authTokensDto: TSpotifyAccessDto = await ipcRenderer.invoke(IPC_GET_AUTH_TOKENS)
   return authTokensDto
 })

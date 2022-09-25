@@ -12,7 +12,7 @@ import {
 const rootReducers = combineReducers({
   spotifyAccessToken: spotifyAccessTokenSlice.reducer,
   authorizeSpotifyAccess: authorizeSpotifyAccessSlice.reducer,
-  authToken: authTokenSlice.reducer
+  authTokens: authTokenSlice.reducer
 })
 
 export const store = configureStore({
@@ -26,7 +26,7 @@ export type TAppDispatch = typeof store.dispatch
 const mapStateToProps = (state: TRootState) => ({
   spotifyAccessToken: state.spotifyAccessToken,
   authorizeSpotifyAccess: state.authorizeSpotifyAccess,
-  authToken: state.authToken,
+  authTokens: state.authTokens,
 })
 
 export const connector = connect(mapStateToProps)

@@ -21,9 +21,6 @@ const INITIAL_STATE_AUTH_TOKEN: STATE<TSpotifyAccessDto> = {
     name: '',
     clientId: '',
     clientSecret: '',
-    refreshToken: '',
-    accessToken: '',
-    url: '',
     scopes: []
   },
   isLoading: false
