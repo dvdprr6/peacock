@@ -3,13 +3,16 @@ import { connect, ConnectedProps } from 'react-redux'
 import {
   getSpotifyTokens,
   getSpotifyAccess,
+  getAuthTokens,
   spotifyAccessTokenSlice,
-  authorizeSpotifyAccessSlice
+  authorizeSpotifyAccessSlice,
+  authTokenSlice
 } from './authorization'
 
 const rootReducers = combineReducers({
   spotifyAccessToken: spotifyAccessTokenSlice.reducer,
-  authorizeSpotifyAccess: authorizeSpotifyAccessSlice.reducer
+  authorizeSpotifyAccess: authorizeSpotifyAccessSlice.reducer,
+  authToken: authTokenSlice.reducer
 })
 
 export const store = configureStore({
@@ -22,7 +25,8 @@ export type TAppDispatch = typeof store.dispatch
 
 const mapStateToProps = (state: TRootState) => ({
   spotifyAccessToken: state.spotifyAccessToken,
-  authorizeSpotifyAccess: state.authorizeSpotifyAccess
+  authorizeSpotifyAccess: state.authorizeSpotifyAccess,
+  authToken: state.authToken,
 })
 
 export const connector = connect(mapStateToProps)
@@ -30,5 +34,6 @@ export type TPropsFromRedux = ConnectedProps<typeof connector>
 
 export {
   getSpotifyAccess,
-  getSpotifyTokens
+  getSpotifyTokens,
+  getAuthTokens
 }

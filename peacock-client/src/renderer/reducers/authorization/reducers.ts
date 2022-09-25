@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getSpotifyTokens, getSpotifyAccess } from './actions'
-import { SPOTIFY_ACCESS_TOKEN_SLICE, SPOTIFY_ACCESS_SLICE } from '@peacock-renderer-utils'
+import { getSpotifyTokens, getSpotifyAccess, getAuthTokens } from './actions'
+import { SPOTIFY_ACCESS_TOKEN_SLICE, SPOTIFY_ACCESS_SLICE, AUTH_TOKENS_SLICE } from '@peacock-renderer-utils'
 
 const INITIAL_STATE = {
   value: {
@@ -9,6 +9,35 @@ const INITIAL_STATE = {
   },
   isLoading: false
 }
+
+const INITIAL_STATE_AUTH_TOKEN = {
+  value: {
+    name: '',
+    clientId: '',
+    clientSecret: '',
+    refreshToken: '',
+    accessToken: '',
+    url: '',
+    scopes: []
+  },
+  isLoading: false
+}
+
+export const authTokenSlice = createSlice({
+  name: AUTH_TOKENS_SLICE,
+  initialState: INITIAL_STATE,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getAuthTokens.pending, state => {
+      state.isLoading = true
+    }).addCase(getAuthTokens.fulfilled, (state, action) => {
+      state.value = action.payload
+      state.isLoading = false
+    }).addCase(getAuthTokens.rejected, state => {
+      state.isLoading = false
+    })
+  }
+})
 
 export const spotifyAccessTokenSlice = createSlice({
   name: SPOTIFY_ACCESS_TOKEN_SLICE,
