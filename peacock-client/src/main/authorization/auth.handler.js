@@ -1,6 +1,7 @@
 const { ipcMain } = require('electron')
-const { IPC_ACTIVATE_AUTHORIZATION, IPC_GET_AUTHORIZATION } = require('../utils/constants')
+const { IPC_ACTIVATE_AUTHORIZATION, IPC_GET_AUTHORIZATION, IPC_GET_AUTH_TOKENS } = require('../utils/constants')
 const { authorizationWindow } = require('./auth.window')
+const { getAuthTokens } = require('./auth.services')
 
 function initAuth() {
   ipcMain.handle(IPC_ACTIVATE_AUTHORIZATION, async (event, clientId) => {
@@ -19,6 +20,10 @@ function initAuth() {
     }catch(e){
       return { clientId: '', clientSecret: '' }
     }
+  })
+
+  ipcMain.handle(IPC_GET_AUTH_TOKENS, async () => {
+    return await getAuthTokens()
   })
 }
 

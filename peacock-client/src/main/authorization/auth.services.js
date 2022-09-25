@@ -1,4 +1,4 @@
-const { saveAccessTokens } = require('./auth.repository')
+const { saveAccessTokens, getAll } = require('./auth.repository')
 
 function setAccessTokens(clientId, clientSecret, url){
   const body = {
@@ -26,6 +26,14 @@ function setAccessTokens(clientId, clientSecret, url){
 
 }
 
+async function getAuthTokens(){
+  return new Promise(async resolve => {
+    const authTokensDto = await getAll()
+    resolve(authTokensDto)
+  })
+}
+
 module.exports = {
-  setAccessTokens
+  setAccessTokens,
+  getAuthTokens
 }
