@@ -4,9 +4,9 @@ export type TSpotifyAccessDto = TPrimaryKey & {
   name: string
   clientId: string
   clientSecret: string
-  refreshToken: string
-  accessToken: string
-  url: string
+  refreshToken?: string
+  accessToken?: string
+  url?: string
   scopes: TScopeDto[]
 }
 
