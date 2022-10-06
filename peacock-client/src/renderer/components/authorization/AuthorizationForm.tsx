@@ -5,6 +5,7 @@ import { Button, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogAct
 import { TextFieldControl, Spinner } from '@peacock-renderer-component-commons'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup'
+import { ScopesCheckboxControl } from './controls'
 
 const schema = yup.object().shape({
   name: yup.string().required('Is Required'),
@@ -25,7 +26,9 @@ const AuthorizationForm: FC<{
 
   useEffect(() => {
     setValue('id', initialValues?.id)
-    //setValue('url', initialValues?.url)
+    setValue('refreshToken', initialValues?.refreshToken)
+    setValue('accessToken', initialValues?.accessToken)
+    setValue('url', initialValues?.url)
   }, [initialValues, open])
 
   return(
@@ -37,10 +40,10 @@ const AuthorizationForm: FC<{
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Controller
-              defaultValue={initialValues?.clientId}
+              defaultValue={initialValues?.name}
               name={'name'}
               control={control}
-              render={({ field: { value, onChange }, formState: { errors } }) =>(
+              render={({ field: { value, onChange }, formState: { errors } }) => (
                 <TextFieldControl
                   value={value}
                   label={'name'}
@@ -56,7 +59,7 @@ const AuthorizationForm: FC<{
              defaultValue={initialValues?.clientId}
              name={'clientId'}
              control={control}
-             render={({ field: { value, onChange }, formState: { errors } }) =>(
+             render={({ field: { value, onChange }, formState: { errors } }) => (
                <TextFieldControl
                  value={value}
                  label={'Client Id'}
@@ -73,7 +76,7 @@ const AuthorizationForm: FC<{
               defaultValue={initialValues?.clientSecret}
               name={'clientSecret'}
               control={control}
-              render={({ field: { value, onChange }, formState: { errors } }) =>(
+              render={({ field: { value, onChange }, formState: { errors } }) => (
                 <TextFieldControl
                   value={value}
                   label={'Client Secret'}
@@ -82,6 +85,16 @@ const AuthorizationForm: FC<{
                   required
                   errors={errors.clientSecret?.message}
                 />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              defaultValue={initialValues?.scopes || []}
+              name={'scopes'}
+              control={control}
+              render={({ field: { value, onChange }, formState: { errors } }) => (
+                <ScopesCheckboxControl value={value} onChange={onChange} />
               )}
             />
           </Grid>
@@ -107,58 +120,6 @@ const AuthorizationForm: FC<{
       </DialogActions>
     </Dialog>
   )
-  // return(
-  //   <Grid container spacing={2}>
-  //     <Grid item xs={12}>
-  //       <Typography variant={'h5'}>Spotify Authorization</Typography>
-  //     </Grid>
-  //     <Grid item xs={12}>
-  //       <Controller
-  //         defaultValue={initialValues.clientId}
-  //         name={'clientId'}
-  //         control={control}
-  //         render={({ field: { value, onChange }, formState: { errors } }) =>(
-  //           <TextFieldControl
-  //             value={value}
-  //             label={'Client Id'}
-  //             onChange={onChange}
-  //             type={'password'}
-  //             required
-  //             errors={errors.clientId?.message}
-  //           />
-  //         )}
-  //       />
-  //     </Grid>
-  //     <Grid item xs={12}>
-  //       <Controller
-  //         defaultValue={initialValues.clientSecret}
-  //         name={'clientSecret'}
-  //         control={control}
-  //         render={({ field: { value, onChange }, formState: { errors } }) =>(
-  //           <TextFieldControl
-  //             value={value}
-  //             label={'Client Secret'}
-  //             onChange={onChange}
-  //             type={'password'}
-  //             required
-  //             errors={errors.clientSecret?.message}
-  //           />
-  //         )}
-  //       />
-  //     </Grid>
-  //     <Grid item xs={6}>
-  //       <Button
-  //         variant={'outlined'}
-  //         color={'primary'}
-  //         disabled={loading}
-  //         onClick={handleSubmit(onSubmit)}
-  //         startIcon={loading ? <Spinner /> : <div></div>}
-  //       >
-  //         Activate
-  //       </Button>
-  //     </Grid>
-  //   </Grid>
-  // )
 }
 
 export default AuthorizationForm
