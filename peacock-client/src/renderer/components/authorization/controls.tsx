@@ -1,5 +1,6 @@
 import React, { FC, useCallback } from 'react'
 import { Box, Checkbox, FormControlLabel, Grid } from '@mui/material'
+import { TScopeDto } from '@peacock-renderer-models'
 
 // REFERENCE: https://developer.spotify.com/documentation/general/guides/authorization/scopes/
 
@@ -33,45 +34,8 @@ const USER_READ_EMAIL = 'user-read-email'
 const USER_READ_PRIVATE = 'user-read-private'
 
 type CONTROL = {
-  value: any
+  value: TScopeDto[]
   onChange: (...event: any[]) => void
-}
-
-const PlaybackChildren: FC<CONTROL> = (props) => {
-  const { value, onChange } = props
-
-  const appRemoteControlOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if(event.target.checked){
-      const valueCopy = [...value]
-      onChange([...valueCopy, APP_REMOTE_CONTROL])
-    }else{
-      const valueCopy = [...value].filter(item => item !== APP_REMOTE_CONTROL)
-      onChange(valueCopy)
-    }
-  }, [value])
-
-  const streamOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    if(event.target.checked){
-      const valueCopy = [...value]
-      onChange([...valueCopy, STREAMING])
-    }else{
-      const valueCopy = [...value].filter(item => item !== STREAMING)
-      onChange(valueCopy)
-    }
-  }, [value])
-
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
-      <FormControlLabel
-        control={<Checkbox checked={value.includes(APP_REMOTE_CONTROL)} onChange={appRemoteControlOnChange}/>}
-        label={APP_REMOTE_CONTROL}
-      />
-      <FormControlLabel
-        control={<Checkbox checked={value.includes(STREAMING)} onChange={streamOnChange}/>}
-        label={STREAMING}
-      />
-    </Box>
-  )
 }
 
 export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
@@ -79,21 +43,21 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
 
   const handleParentOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, children: string[]) => {
     if(event.target.checked){
-      const valueCopy = [...value]
-      onChange([...valueCopy, ...children])
+      const result = children.map(item => ({ name: item }))
+      onChange([...value, ...result])
     }else{
-      const valueCopy = [...value].filter(item => !children.includes(item))
-      onChange(valueCopy)
+      const result = value.filter(item => !children.includes(item.name))
+      onChange(result)
     }
   }, [value])
 
   const handleChildOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, child: string) => {
     if(event.target.checked){
-      const valueCopy = [...value]
-      onChange([...valueCopy, child])
+      const result = { name: child }
+      onChange([...value, result])
     }else{
-      const valueCopy = [...value].filter(item => item !== child)
-      onChange(valueCopy)
+      const result = value.filter(item => item.name !== child)
+      onChange(result)
     }
   }, [value])
 
@@ -103,7 +67,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(UGC_IMAGE_UPLOAD)}
+              checked={!!value.find(item => item.name === UGC_IMAGE_UPLOAD)}
               onChange={(e => handleParentOnChange(e, [UGC_IMAGE_UPLOAD]))}
             />
           }
@@ -111,7 +75,8 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(UGC_IMAGE_UPLOAD)} onChange={e => handleChildOnChange(e, UGC_IMAGE_UPLOAD)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === UGC_IMAGE_UPLOAD)} onChange={e => handleChildOnChange(e, UGC_IMAGE_UPLOAD)} />
+            }
             label={UGC_IMAGE_UPLOAD}
           />
         </Box>
@@ -120,7 +85,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(USER_READ_PLAYBACK_STATE) && value.includes(USER_MODIFY_PLAYBACK_STATE) && value.includes(USER_READ_CURRENTLY_PLAYING)}
+              checked={!!value.find(item => item.name === USER_READ_PLAYBACK_STATE) && !!value.find(item => item.name === USER_MODIFY_PLAYBACK_STATE) && !!value.find(item => item.name === USER_READ_CURRENTLY_PLAYING)}
               onChange={(e => handleParentOnChange(e, [USER_READ_PLAYBACK_STATE, USER_MODIFY_PLAYBACK_STATE, USER_READ_CURRENTLY_PLAYING]))}
             />
           }
@@ -128,15 +93,15 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_READ_PLAYBACK_STATE)} onChange={e => handleChildOnChange(e, USER_READ_PLAYBACK_STATE)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_READ_PLAYBACK_STATE)} onChange={e => handleChildOnChange(e, USER_READ_PLAYBACK_STATE)}/>}
             label={USER_READ_PLAYBACK_STATE}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_MODIFY_PLAYBACK_STATE)} onChange={e => handleChildOnChange(e, USER_MODIFY_PLAYBACK_STATE)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_MODIFY_PLAYBACK_STATE)} onChange={e => handleChildOnChange(e, USER_MODIFY_PLAYBACK_STATE)}/>}
             label={USER_MODIFY_PLAYBACK_STATE}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_READ_CURRENTLY_PLAYING)} onChange={e => handleChildOnChange(e, USER_READ_CURRENTLY_PLAYING)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_READ_CURRENTLY_PLAYING)} onChange={e => handleChildOnChange(e, USER_READ_CURRENTLY_PLAYING)}/>}
             label={USER_READ_CURRENTLY_PLAYING}
           />
         </Box>
@@ -145,7 +110,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(APP_REMOTE_CONTROL) && value.includes(STREAMING)}
+              checked={!!value.find(item => item.name === APP_REMOTE_CONTROL) && !!value.find(item => item.name === STREAMING)}
               onChange={(e => handleParentOnChange(e, [APP_REMOTE_CONTROL, STREAMING]))}
             />
           }
@@ -153,11 +118,11 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(APP_REMOTE_CONTROL)} onChange={e => handleChildOnChange(e, APP_REMOTE_CONTROL)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === APP_REMOTE_CONTROL)} onChange={e => handleChildOnChange(e, APP_REMOTE_CONTROL)}/>}
             label={APP_REMOTE_CONTROL}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(STREAMING)} onChange={e => handleChildOnChange(e, STREAMING)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === STREAMING)} onChange={e => handleChildOnChange(e, STREAMING)}/>}
             label={STREAMING}
           />
         </Box>
@@ -166,7 +131,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(PLAYLIST_READ_PRIVATE) && value.includes(PLAYLIST_READ_COLLABORATIVE) && value.includes(PLAYLIST_MODIFY_PRIVATE) && value.includes(PLAYLIST_MODIFY_PUBLIC)}
+              checked={!!value.find(item => item.name === PLAYLIST_READ_PRIVATE) && !!value.find(item => item.name === PLAYLIST_READ_COLLABORATIVE) && !!value.find(item => item.name === PLAYLIST_MODIFY_PRIVATE) && !!value.find(item => item.name === PLAYLIST_MODIFY_PUBLIC)}
               onChange={(e => handleParentOnChange(e, [PLAYLIST_READ_PRIVATE, PLAYLIST_READ_COLLABORATIVE, PLAYLIST_MODIFY_PRIVATE, PLAYLIST_MODIFY_PUBLIC]))}
             />
           }
@@ -174,19 +139,19 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(PLAYLIST_READ_PRIVATE)} onChange={e => handleChildOnChange(e, PLAYLIST_READ_PRIVATE)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === PLAYLIST_READ_PRIVATE)} onChange={e => handleChildOnChange(e, PLAYLIST_READ_PRIVATE)}/>}
             label={PLAYLIST_READ_PRIVATE}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(PLAYLIST_READ_COLLABORATIVE)} onChange={e => handleChildOnChange(e, PLAYLIST_READ_COLLABORATIVE)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === PLAYLIST_READ_COLLABORATIVE)} onChange={e => handleChildOnChange(e, PLAYLIST_READ_COLLABORATIVE)}/>}
             label={PLAYLIST_READ_COLLABORATIVE}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(PLAYLIST_MODIFY_PRIVATE)} onChange={e => handleChildOnChange(e, PLAYLIST_MODIFY_PRIVATE)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === PLAYLIST_MODIFY_PRIVATE)} onChange={e => handleChildOnChange(e, PLAYLIST_MODIFY_PRIVATE)}/>}
             label={PLAYLIST_MODIFY_PRIVATE}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(PLAYLIST_MODIFY_PUBLIC)} onChange={e => handleChildOnChange(e, PLAYLIST_MODIFY_PUBLIC)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === PLAYLIST_MODIFY_PUBLIC)} onChange={e => handleChildOnChange(e, PLAYLIST_MODIFY_PUBLIC)}/>}
             label={PLAYLIST_MODIFY_PUBLIC}
           />
         </Box>
@@ -195,7 +160,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(USER_FOLLOW_MODIFY) && value.includes(USER_FOLLOW_READ)}
+              checked={!!value.find(item => item.name === USER_FOLLOW_MODIFY) && !!value.find(item => item.name === USER_FOLLOW_READ)}
               onChange={(e => handleParentOnChange(e, [USER_FOLLOW_MODIFY, USER_FOLLOW_READ]))}
             />
           }
@@ -203,11 +168,11 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_FOLLOW_MODIFY)} onChange={e => handleChildOnChange(e, USER_FOLLOW_MODIFY)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_FOLLOW_MODIFY)} onChange={e => handleChildOnChange(e, USER_FOLLOW_MODIFY)}/>}
             label={USER_FOLLOW_MODIFY}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_FOLLOW_READ)} onChange={e => handleChildOnChange(e, USER_FOLLOW_READ)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_FOLLOW_READ)} onChange={e => handleChildOnChange(e, USER_FOLLOW_READ)}/>}
             label={USER_FOLLOW_READ}
           />
         </Box>
@@ -216,7 +181,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(USER_READ_PLAYBACK_POSITION) && value.includes(USER_TOP_READ) && value.includes(USER_READ_RECENTLY_PLAYED)}
+              checked={!!value.find(item => item.name === USER_READ_PLAYBACK_POSITION) && !!value.find(item => item.name === USER_TOP_READ) && !!value.find(item => item.name === USER_READ_RECENTLY_PLAYED)}
               onChange={(e => handleParentOnChange(e, [USER_READ_PLAYBACK_POSITION, USER_TOP_READ, USER_READ_RECENTLY_PLAYED]))}
             />
           }
@@ -224,15 +189,15 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_READ_PLAYBACK_POSITION)} onChange={e => handleChildOnChange(e, USER_READ_PLAYBACK_POSITION)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_READ_PLAYBACK_POSITION)} onChange={e => handleChildOnChange(e, USER_READ_PLAYBACK_POSITION)}/>}
             label={USER_READ_PLAYBACK_POSITION}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_TOP_READ)} onChange={e => handleChildOnChange(e, USER_TOP_READ)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_TOP_READ)} onChange={e => handleChildOnChange(e, USER_TOP_READ)}/>}
             label={USER_TOP_READ}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_READ_RECENTLY_PLAYED)} onChange={e => handleChildOnChange(e, USER_READ_RECENTLY_PLAYED)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_READ_RECENTLY_PLAYED)} onChange={e => handleChildOnChange(e, USER_READ_RECENTLY_PLAYED)}/>}
             label={USER_READ_RECENTLY_PLAYED}
           />
         </Box>
@@ -241,7 +206,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(USER_LIBRARY_MODIFY) && value.includes(USER_LIBRARY_READ)}
+              checked={!!value.find(item => item.name === USER_LIBRARY_MODIFY) && !!value.find(item => item.name === USER_LIBRARY_READ)}
               onChange={(e => handleParentOnChange(e, [USER_LIBRARY_MODIFY, USER_LIBRARY_READ]))}
             />
           }
@@ -249,11 +214,11 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_LIBRARY_MODIFY)} onChange={e => handleChildOnChange(e, USER_LIBRARY_MODIFY)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_LIBRARY_MODIFY)} onChange={e => handleChildOnChange(e, USER_LIBRARY_MODIFY)}/>}
             label={USER_LIBRARY_MODIFY}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_LIBRARY_READ)} onChange={e => handleChildOnChange(e, USER_LIBRARY_READ)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_LIBRARY_READ)} onChange={e => handleChildOnChange(e, USER_LIBRARY_READ)}/>}
             label={USER_LIBRARY_READ}
           />
         </Box>
@@ -262,7 +227,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         <FormControlLabel
           control={
             <Checkbox
-              checked={value.includes(USER_READ_EMAIL) && value.includes(USER_READ_PRIVATE)}
+              checked={!!value.find(item => item.name === USER_READ_EMAIL) && !!value.find(item => item.name === USER_READ_PRIVATE)}
               onChange={(e => handleParentOnChange(e, [USER_LIBRARY_MODIFY, USER_LIBRARY_READ]))}
             />
           }
@@ -270,11 +235,11 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_READ_EMAIL)} onChange={e => handleChildOnChange(e, USER_READ_EMAIL)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_READ_EMAIL)} onChange={e => handleChildOnChange(e, USER_READ_EMAIL)}/>}
             label={USER_READ_EMAIL}
           />
           <FormControlLabel
-            control={<Checkbox checked={value.includes(USER_READ_PRIVATE)} onChange={e => handleChildOnChange(e, USER_READ_PRIVATE)}/>}
+            control={<Checkbox checked={!!value.find(item => item.name === USER_READ_PRIVATE)} onChange={e => handleChildOnChange(e, USER_READ_PRIVATE)}/>}
             label={USER_READ_PRIVATE}
           />
         </Box>
