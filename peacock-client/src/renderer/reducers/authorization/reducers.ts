@@ -2,19 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getAuthTokens, saveAuthTokens } from './actions'
 import { AUTH_TOKENS_SLICE } from '@peacock-renderer-utils'
 import { TAuthTokenDto } from '@peacock-renderer-models'
-
-type STATE<T> = {
-  value: T,
-  isLoading: boolean
-}
-
-const INITIAL_STATE = {
-  value: {
-    clientId: '',
-    clientSecret: ''
-  },
-  isLoading: false
-}
+import { STATE } from '../types'
 
 const INITIAL_STATE_AUTH_TOKEN: STATE<TAuthTokenDto[]> = {
   value: [],
