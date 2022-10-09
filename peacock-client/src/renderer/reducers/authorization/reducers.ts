@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getSpotifyTokens, getSpotifyAccess, getAuthTokens, saveAuthTokens } from './actions'
-import { SPOTIFY_ACCESS_TOKEN_SLICE, SPOTIFY_ACCESS_SLICE, AUTH_TOKENS_SLICE, SAVE_AUTH_TOKENS_SLICE } from '@peacock-renderer-utils'
+import { getAuthTokens, saveAuthTokens } from './actions'
+import { AUTH_TOKENS_SLICE } from '@peacock-renderer-utils'
 import { TAuthTokenDto } from '@peacock-renderer-models'
 
 type STATE<T> = {
@@ -21,22 +21,6 @@ const INITIAL_STATE_AUTH_TOKEN: STATE<TAuthTokenDto[]> = {
   isLoading: false
 }
 
-// export const saveAuthTokenSlice = createSlice({
-//   name: SAVE_AUTH_TOKENS_SLICE,
-//   initialState: INITIAL_STATE_AUTH_TOKEN,
-//   reducers: {},
-//   extraReducers: (builder) => {
-//     builder.addCase(saveAuthTokens.pending, state => {
-//       state.isLoading = true
-//     }).addCase(saveAuthTokens.fulfilled, (state, action) => {
-//       state.value = action.payload
-//       state.isLoading = false
-//     }).addCase(saveAuthTokens.rejected, state => {
-//       state.isLoading = false
-//     })
-//   }
-// })
-
 export const authTokenSlice = createSlice({
   name: AUTH_TOKENS_SLICE,
   initialState: INITIAL_STATE_AUTH_TOKEN,
@@ -55,38 +39,6 @@ export const authTokenSlice = createSlice({
       state.value = action.payload
       state.isLoading = false
     }).addCase(saveAuthTokens.rejected, state => {
-      state.isLoading = false
-    })
-  }
-})
-
-export const spotifyAccessTokenSlice = createSlice({
-  name: SPOTIFY_ACCESS_TOKEN_SLICE,
-  initialState: INITIAL_STATE,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(getSpotifyTokens.pending, state => {
-      state.isLoading = true
-    }).addCase(getSpotifyTokens.fulfilled, (state, action) => {
-      state.value = action.payload
-      state.isLoading = false
-    }).addCase(getSpotifyTokens.rejected, state => {
-      state.isLoading = false
-    })
-  }
-})
-
-export const authorizeSpotifyAccessSlice = createSlice({
-  name: SPOTIFY_ACCESS_SLICE,
-  initialState: INITIAL_STATE,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(getSpotifyAccess.pending, state => {
-      state.isLoading = true
-    }).addCase(getSpotifyAccess.fulfilled, (state, action) => {
-      state.value = action.payload
-      state.isLoading = false
-    }).addCase(getSpotifyAccess.rejected, state => {
       state.isLoading = false
     })
   }

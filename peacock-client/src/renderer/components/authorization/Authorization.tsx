@@ -1,16 +1,15 @@
-import React, { FC, useCallback, useState, useEffect } from 'react'
-import { Grid, Card, CardContent, Typography, Button, Divider, IconButton } from '@mui/material'
+import React, { FC, useState, useEffect } from 'react'
+import { Grid, Typography, Button, Divider, IconButton } from '@mui/material'
 import { Add, PlayArrow, Edit, Delete, Refresh } from '@mui/icons-material'
 import AuthorizationForm from './AuthorizationForm'
-import { connector, TPropsFromRedux, TAppDispatch, getSpotifyAccess, getAuthTokens } from '@peacock-renderer-reducers'
-import { TSpotifyAccessForm } from '@peacock-renderer-models'
+import { connector, TPropsFromRedux, TAppDispatch, getAuthTokens } from '@peacock-renderer-reducers'
 import { useDispatch } from 'react-redux'
 import MaterialTable, { MTableToolbar } from '@material-table/core'
 import { MATERIAL_TABLE_ICONS, MATERIAL_TABLE_OPTIONS } from '@peacock-renderer-utils'
 import { useAuthorization } from './hooks'
 
 const Authorization: FC<TPropsFromRedux> = (props) => {
-  const { spotifyAccessToken, authorizeSpotifyAccess, authTokens } = props
+  const { authTokens } = props
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const {
     openNew, openEdit, openDelete, openView,

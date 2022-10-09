@@ -1,5 +1,5 @@
 const { net } = require('electron')
-const { LOCALHOST_URL, HTTP_GET, HTTP_POST, HTTP_PUT, HTTP_DELETE } = require('../utils/constants')
+const { LOCALHOST_URL, HTTP_GET, HTTP_POST, HTTP_PUT, HTTP_DELETE, REQ_TIMEOUT } = require('../utils/constants')
 
 const PATH_AUTH_TOKEN = '/authToken'
 
@@ -23,7 +23,7 @@ async function getAll(){
       request.end()
     }
 
-  })
+  }, [REQ_TIMEOUT])
 }
 
 function createAuth(body){
@@ -46,7 +46,7 @@ function createAuth(body){
     } finally {
       request.end()
     }
-  })
+  }, [REQ_TIMEOUT])
 }
 
 module.exports = {
