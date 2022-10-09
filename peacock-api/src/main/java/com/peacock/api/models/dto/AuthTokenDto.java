@@ -1,5 +1,7 @@
 package com.peacock.api.models.dto;
 
+import java.util.List;
+
 public class AuthTokenDto implements IDto {
     private Long id;
     private String name;
@@ -8,6 +10,8 @@ public class AuthTokenDto implements IDto {
     private String refreshToken;
     private String accessToken;
     private String url;
+
+    private List<ScopeDto> scopes;
 
     public AuthTokenDto(){}
 
@@ -65,5 +69,13 @@ public class AuthTokenDto implements IDto {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public List<ScopeDto> getScopes() {
+        return scopes;
+    }
+
+    public void setScopes(List<ScopeDto> scopes) {
+        this.scopes = scopes;
     }
 }

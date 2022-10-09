@@ -12,7 +12,31 @@ import {
   SaveAlt, Search, ViewColumn
 } from '@mui/icons-material'
 
-export const MATERIAL_TABLE_ICONS: Icons = {
+/** IPC CONSTANTS */
+export const IPC_GET_AUTH_TOKENS = 'IPC_GET_AUTH_TOKENS'
+export const IPC_GET_AUTHORIZATION = 'IPC_GET_AUTHORIZATION'
+export const IPC_ACTIVATE_AUTHORIZATION = 'IPC_ACTIVATE_AUTHORIZATION'
+export const IPC_SAVE_AUTH_TOKENS = 'IPC_SAVE_AUTH_TOKENS'
+
+/** REDIRECT CONSTANTS */
+export const DASHBOARD_REDIRECT = '/dashboard'
+export const HISTORY_REDIRECT = '/history'
+export const AUTHORIZATION_REDIRECT = '/authorization'
+export const USER_REDIRECT = '/user'
+
+/** REDUCER CONSTANTS */
+export const SPOTIFY_ACCESS_TOKEN_SLICE = 'spotifyAccessToken'
+export const SPOTIFY_ACCESS_SLICE = 'authorizeSpotifyAccess'
+export const AUTH_TOKENS_SLICE = 'authTokens'
+export const SAVE_AUTH_TOKENS_SLICE = 'saveAuthTokensSlice'
+
+/** THUNK CONSTANTS */
+export const GET_SPOTIFY_TOKENS_THUNK = 'authorization/getTokens'
+export const GET_SPOTIFY_ACCESS_THUNK = 'authorization/getAccess'
+export const GET_AUTH_TOKENS_THUNK = 'authorization/tokens'
+export const POST_AUTH_TOKENS_THUNK = 'authorization/saveTokens'
+
+export const MATERIAL_TABLE_ICONS: Icons<any> = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref}/>),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref}/>),
@@ -30,4 +54,10 @@ export const MATERIAL_TABLE_ICONS: Icons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref}/>),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref}/>),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref}/>)
+}
+
+export const MATERIAL_TABLE_OPTIONS = {
+  actionsColumnIndex: -1,
+  pageSize: 10,
+  maxBodyHeight: 740,
 }

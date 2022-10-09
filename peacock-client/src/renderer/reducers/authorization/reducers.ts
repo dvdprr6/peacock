@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getSpotifyTokens, getSpotifyAccess, getAuthTokens } from './actions'
-import { SPOTIFY_ACCESS_TOKEN_SLICE, SPOTIFY_ACCESS_SLICE, AUTH_TOKENS_SLICE } from '@peacock-renderer-utils'
-import { TSpotifyAccessDto } from '@peacock-renderer-models'
+import { getSpotifyTokens, getSpotifyAccess, getAuthTokens, saveAuthTokens } from './actions'
+import { SPOTIFY_ACCESS_TOKEN_SLICE, SPOTIFY_ACCESS_SLICE, AUTH_TOKENS_SLICE, SAVE_AUTH_TOKENS_SLICE } from '@peacock-renderer-utils'
+import { TAuthTokenDto } from '@peacock-renderer-models'
 
 type STATE<T> = {
   value: T,
@@ -16,15 +16,26 @@ const INITIAL_STATE = {
   isLoading: false
 }
 
-const INITIAL_STATE_AUTH_TOKEN: STATE<TSpotifyAccessDto> = {
-  value: {
-    name: '',
-    clientId: '',
-    clientSecret: '',
-    scopes: []
-  },
+const INITIAL_STATE_AUTH_TOKEN: STATE<TAuthTokenDto[]> = {
+  value: [],
   isLoading: false
 }
+
+// export const saveAuthTokenSlice = createSlice({
+//   name: SAVE_AUTH_TOKENS_SLICE,
+//   initialState: INITIAL_STATE_AUTH_TOKEN,
+//   reducers: {},
+//   extraReducers: (builder) => {
+//     builder.addCase(saveAuthTokens.pending, state => {
+//       state.isLoading = true
+//     }).addCase(saveAuthTokens.fulfilled, (state, action) => {
+//       state.value = action.payload
+//       state.isLoading = false
+//     }).addCase(saveAuthTokens.rejected, state => {
+//       state.isLoading = false
+//     })
+//   }
+// })
 
 export const authTokenSlice = createSlice({
   name: AUTH_TOKENS_SLICE,
@@ -37,6 +48,13 @@ export const authTokenSlice = createSlice({
       state.value = action.payload
       state.isLoading = false
     }).addCase(getAuthTokens.rejected, state => {
+      state.isLoading = false
+    }).addCase(saveAuthTokens.pending, state => {
+      state.isLoading = true
+    }).addCase(saveAuthTokens.fulfilled, (state, action) => {
+      state.value = action.payload
+      state.isLoading = false
+    }).addCase(saveAuthTokens.rejected, state => {
       state.isLoading = false
     })
   }

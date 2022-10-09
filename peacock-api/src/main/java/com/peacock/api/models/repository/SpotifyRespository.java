@@ -20,11 +20,11 @@ public class SpotifyRespository {
 
         String token = authTokenDto.getClientId() + ":" + authTokenDto.getClientSecret();
 
-        RequestEntity<String> request = RequestEntity
-                .post(new URI(SPOTIFY_TOKEN))
-                .header("Authorization", "Basic " + token)
-                .accept(MediaType.APPLICATION_FORM_URLENCODED)
-                .body()
+//        RequestEntity<String> request = RequestEntity
+//                .post(new URI(SPOTIFY_TOKEN))
+//                .header("Authorization", "Basic " + token)
+//                .accept(MediaType.APPLICATION_FORM_URLENCODED)
+//                .body();
     }
 
 }

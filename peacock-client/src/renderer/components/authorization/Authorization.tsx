@@ -1,8 +1,8 @@
 import React, { FC, useCallback, useState, useEffect } from 'react'
-import { Grid, Card, CardContent, Typography, Button, Divider } from '@mui/material'
-import { Add, PlayArrow } from '@mui/icons-material'
+import { Grid, Card, CardContent, Typography, Button, Divider, IconButton } from '@mui/material'
+import { Add, PlayArrow, Edit, Delete, Refresh } from '@mui/icons-material'
 import AuthorizationForm from './AuthorizationForm'
-import { connector, TPropsFromRedux, TAppDispatch, getSpotifyAccess } from '@peacock-renderer-reducers'
+import { connector, TPropsFromRedux, TAppDispatch, getSpotifyAccess, getAuthTokens } from '@peacock-renderer-reducers'
 import { TSpotifyAccessForm } from '@peacock-renderer-models'
 import { useDispatch } from 'react-redux'
 import MaterialTable, { MTableToolbar } from '@material-table/core'
@@ -10,19 +10,20 @@ import { MATERIAL_TABLE_ICONS, MATERIAL_TABLE_OPTIONS } from '@peacock-renderer-
 import { useAuthorization } from './hooks'
 
 const Authorization: FC<TPropsFromRedux> = (props) => {
-  const { spotifyAccessToken, authorizeSpotifyAccess } = props
+  const { spotifyAccessToken, authorizeSpotifyAccess, authTokens } = props
   const [refreshing, setRefreshing] = useState<boolean>(false)
   const {
     openNew, openEdit, openDelete, openView,
     loading, selectedRow,
     onOpenNew, onCloseNew, onOpenEdit, onCloseEdit, onOpenDelete, onCloseDelete, onOpenView, onCloseView,
-    onEdit, onDelete
+    onSubmit, onEdit, onDelete
   } = useAuthorization()
   const dispatch: TAppDispatch = useDispatch()
 
-  const onSubmit = useCallback((form: TSpotifyAccessForm) => {
-    dispatch(getSpotifyAccess(form))
-  }, [spotifyAccessToken])
+  useEffect(() => {
+    setRefreshing(true)
+    dispatch(getAuthTokens()).then(() => setRefreshing(false))
+  }, [])
 
   return(
     <Grid container spacing={2}>
@@ -50,24 +51,50 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
           isLoading={refreshing}
           columns={[
             {
-              title: 'Client ID',
-              field: '',
+              title: 'Name',
+              field: 'name'
             },
             {
-              title: '',
-              field: '',
+              title: 'Client ID',
+              field: 'clientId',
+            },
+            {
+              title: 'Client Secret',
+              field: 'clientSecret',
             }
           ]}
-          data={[]}
+          data={authTokens.value}
           actions={[
             {
               icon: () => <PlayArrow />,
               tooltip: 'Activate',
               onClick: (event, rowData: any) => undefined
+            },
+            {
+              icon: () => <Edit />,
+              tooltip: 'Edit',
+              onClick: (event, rowData: any) => undefined
+            },
+            {
+              icon: () => <Delete />,
+              tooltip: 'Delete',
+              onClick: (event, rowData: any) => undefined
             }
           ]}
           options={MATERIAL_TABLE_OPTIONS}
-
+          onRowClick={(e, rowData: any) => undefined}
+          components={{
+            Toolbar: props => (
+              <div>
+                <MTableToolbar {...props} />
+                <div style={{padding: '0px 10px', textAlign: 'left'}}>
+                  <IconButton onClick={() => undefined}>
+                    <Refresh />
+                  </IconButton>
+                </div>
+              </div>
+            )
+          }}
         />
       </Grid>
       <Grid item xs={12}>
@@ -81,22 +108,6 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
       </Grid>
     </Grid>
   )
-
-  // return (
-  //   <Grid container spacing={2}>
-  //     <Grid item xs={12}>
-  //       <Card style={{ display: 'flex' }}>
-  //         <CardContent style={{ width: '100%' }}>
-  //           <AuthorizationForm
-  //             onSubmit={onSubmit}
-  //             loading={authorizeSpotifyAccess.isLoading}
-  //             initialValues={spotifyAccessToken.value}
-  //           />
-  //         </CardContent>
-  //       </Card>
-  //     </Grid>
-  //   </Grid>
-  // )
 }
 
 export default connector(Authorization)

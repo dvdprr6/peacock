@@ -16,7 +16,7 @@ public class AuthTokenService {
     @Autowired
     private AuthTokenRepository authTokenRepository;
 
-    public List<AuthTokenDto> getAllAuthTokens(){
+    public List<AuthTokenDto> getAuthTokens(){
         List<AuthTokenEntity> authTokenEntityList = authTokenRepository.getAll();
 
         List<AuthTokenDto> authTokenDtoList = authTokenEntityList.stream()
@@ -26,7 +26,7 @@ public class AuthTokenService {
         return authTokenDtoList;
     }
 
-    public void addAuthTokens(AuthTokenDto authTokenDto){
+    public void saveAuth(AuthTokenDto authTokenDto){
         AuthTokenEntity authTokenEntity = ModelConverter.convertToEntity(authTokenDto, AuthTokenEntity.class);
 
         authTokenRepository.insert(authTokenEntity);

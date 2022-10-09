@@ -10,7 +10,8 @@ import { ScopesCheckboxControl } from './controls'
 const schema = yup.object().shape({
   name: yup.string().required('Is Required'),
   clientId: yup.string().required('Is Required'),
-  clientSecret: yup.string().required('Is Required')
+  clientSecret: yup.string().required('Is Required'),
+  scopes: yup.array().min(1, 'Is Required')
 })
 
 const AuthorizationForm: FC<{
@@ -29,7 +30,13 @@ const AuthorizationForm: FC<{
     setValue('refreshToken', initialValues?.refreshToken)
     setValue('accessToken', initialValues?.accessToken)
     setValue('url', initialValues?.url)
-  }, [initialValues, open])
+  }, [initialValues])
+
+  useEffect(() => {
+    if(!open){
+      reset() // clear form
+    }
+  }, [open])
 
   return(
     <Dialog open={open} maxWidth={'xl'} fullWidth>
@@ -94,7 +101,7 @@ const AuthorizationForm: FC<{
               name={'scopes'}
               control={control}
               render={({ field: { value, onChange }, formState: { errors } }) => (
-                <ScopesCheckboxControl value={value} onChange={onChange} />
+                <ScopesCheckboxControl value={value} onChange={onChange} error={errors.scopes?.message} />
               )}
             />
           </Grid>

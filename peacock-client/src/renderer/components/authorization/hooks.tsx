@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import {TSpotifyAccessDto, TComponentBaseHookImpl} from '@peacock-renderer-models'
+import { TAuthTokenDto, TComponentBaseHookImpl } from '@peacock-renderer-models'
 import { useDispatch } from 'react-redux'
-import { TAppDispatch } from '@peacock-renderer-reducers'
+import { TAppDispatch, saveAuthTokens } from '@peacock-renderer-reducers'
 
-export function useAuthorization(): TComponentBaseHookImpl<TSpotifyAccessDto> {
+export function useAuthorization(): TComponentBaseHookImpl<TAuthTokenDto> {
 
   const [openNew, setOpenNew] = useState<boolean>(false)
   const [openEdit, setOpenEdit] = useState<boolean>(false)
@@ -11,7 +11,7 @@ export function useAuthorization(): TComponentBaseHookImpl<TSpotifyAccessDto> {
   const [openView, setOpenView] = useState<boolean>(false)
   const [openPlay, setOpenPlay] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [selectedRow, setSelectedRow] = useState<TSpotifyAccessDto>({} as TSpotifyAccessDto)
+  const [selectedRow, setSelectedRow] = useState<TAuthTokenDto>({} as TAuthTokenDto)
   const dispatch: TAppDispatch = useDispatch()
 
   useEffect(() => {
@@ -26,41 +26,42 @@ export function useAuthorization(): TComponentBaseHookImpl<TSpotifyAccessDto> {
   const onOpenNew = () => setOpenNew(true)
   const onCloseNew = () => setOpenNew(false)
 
-  const onOpenEdit = (rowData: TSpotifyAccessDto) => {
+  const onOpenEdit = (rowData: TAuthTokenDto) => {
     setSelectedRow(rowData)
     setOpenEdit(true)
   }
 
   const onCloseEdit = () => setOpenEdit(false)
 
-  const onOpenDelete = (rowData: TSpotifyAccessDto) => {
+  const onOpenDelete = (rowData: TAuthTokenDto) => {
     setSelectedRow(rowData)
     setOpenDelete(true)
   }
 
   const onCloseDelete = () => setOpenDelete(false)
 
-  const onOpenView = (rowData: TSpotifyAccessDto) => {
+  const onOpenView = (rowData: TAuthTokenDto) => {
     setSelectedRow(rowData)
     setOpenView(true)
   }
 
   const onCloseView = () => setOpenView(false)
 
-  const onOpenPlay = (rowData: TSpotifyAccessDto) => {
+  const onOpenPlay = (rowData: TAuthTokenDto) => {
     setSelectedRow(rowData)
     setOpenPlay(true)
   }
 
   const onClosePlay = () => setOpenPlay(false)
 
-  const onSubmit = (form: TSpotifyAccessDto) => {
-    // setLoading(true)
-    // console.log(JSON.stringify(form))
-    // dispatch(addJobThunk(form)).then(() => setLoading(false))
+  const onSubmit = (form: TAuthTokenDto) => {
+    //console.log(JSON.stringify(form))
+    setLoading(true)
+    console.log(JSON.stringify(form))
+    dispatch(saveAuthTokens(form)).then(() => setLoading(false))
   }
 
-  const onEdit = (form: TSpotifyAccessDto) => {
+  const onEdit = (form: TAuthTokenDto) => {
     // setLoading(true)
     // dispatch(editJobThunk(form)).then(() => setLoading(false))
   }

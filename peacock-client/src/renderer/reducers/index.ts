@@ -4,15 +4,18 @@ import {
   getSpotifyTokens,
   getSpotifyAccess,
   getAuthTokens,
+  saveAuthTokens,
   spotifyAccessTokenSlice,
   authorizeSpotifyAccessSlice,
   authTokenSlice
+  //saveAuthTokenSlice
 } from './authorization'
 
 const rootReducers = combineReducers({
   spotifyAccessToken: spotifyAccessTokenSlice.reducer,
   authorizeSpotifyAccess: authorizeSpotifyAccessSlice.reducer,
-  authTokens: authTokenSlice.reducer
+  authTokens: authTokenSlice.reducer,
+  //saveAuthTokens: saveAuthTokenSlice.reducer
 })
 
 export const store = configureStore({
@@ -35,5 +38,6 @@ export type TPropsFromRedux = ConnectedProps<typeof connector>
 export {
   getSpotifyAccess,
   getSpotifyTokens,
-  getAuthTokens
+  getAuthTokens,
+  saveAuthTokens
 }

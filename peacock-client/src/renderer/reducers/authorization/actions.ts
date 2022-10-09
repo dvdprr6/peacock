@@ -3,24 +3,31 @@ import {
   IPC_GET_AUTH_TOKENS,
   IPC_GET_AUTHORIZATION,
   IPC_ACTIVATE_AUTHORIZATION,
+  IPC_SAVE_AUTH_TOKENS,
   GET_SPOTIFY_TOKENS_THUNK,
   GET_SPOTIFY_ACCESS_THUNK,
-  GET_AUTH_TOKENS_THUNK
+  GET_AUTH_TOKENS_THUNK,
+  POST_AUTH_TOKENS_THUNK
 } from '@peacock-renderer-utils'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { TSpotifyAccessDto } from '@peacock-renderer-models'
+import { TAuthTokenDto } from '@peacock-renderer-models'
 
 export const getSpotifyTokens = createAsyncThunk(GET_SPOTIFY_TOKENS_THUNK, async () => {
-  const spotifyAccessTokenDto: TSpotifyAccessDto = await ipcRenderer.invoke(IPC_GET_AUTHORIZATION)
+  const spotifyAccessTokenDto: TAuthTokenDto = await ipcRenderer.invoke(IPC_GET_AUTHORIZATION)
   return spotifyAccessTokenDto
 })
 
-export const getSpotifyAccess = createAsyncThunk(GET_SPOTIFY_ACCESS_THUNK, async (spotifyAccessDto: TSpotifyAccessDto) => {
-  const spotifyAccessTokenDto: TSpotifyAccessDto = await ipcRenderer.invoke(IPC_ACTIVATE_AUTHORIZATION, spotifyAccessDto)
+export const getSpotifyAccess = createAsyncThunk(GET_SPOTIFY_ACCESS_THUNK, async (spotifyAccessDto: TAuthTokenDto) => {
+  const spotifyAccessTokenDto: TAuthTokenDto = await ipcRenderer.invoke(IPC_ACTIVATE_AUTHORIZATION, spotifyAccessDto)
   return spotifyAccessTokenDto
 })
 
 export const getAuthTokens = createAsyncThunk(GET_AUTH_TOKENS_THUNK, async () => {
-  const authTokensDto: TSpotifyAccessDto = await ipcRenderer.invoke(IPC_GET_AUTH_TOKENS)
+  const authTokensDto: TAuthTokenDto[] = await ipcRenderer.invoke(IPC_GET_AUTH_TOKENS)
+  return authTokensDto
+})
+
+export const saveAuthTokens = createAsyncThunk(POST_AUTH_TOKENS_THUNK, async (authTokenDto: TAuthTokenDto) => {
+  const authTokensDto: TAuthTokenDto[] = await ipcRenderer.invoke(IPC_SAVE_AUTH_TOKENS, authTokenDto)
   return authTokensDto
 })

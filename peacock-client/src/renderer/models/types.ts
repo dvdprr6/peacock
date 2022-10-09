@@ -1,6 +1,6 @@
 type TPrimaryKey = { id?: number }
 
-export type TSpotifyAccessDto = TPrimaryKey & {
+export type TAuthTokenDto = TPrimaryKey & {
   name: string
   clientId: string
   clientSecret: string
@@ -16,7 +16,7 @@ export type TScopeDto = TPrimaryKey & {
 
 /** FORMS */
 
-export type TSpotifyAccessForm = TSpotifyAccessDto
+export type TSpotifyAccessForm = TAuthTokenDto
 
 /** MISC */
 

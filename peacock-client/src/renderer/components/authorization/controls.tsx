@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from 'react'
-import { Box, Checkbox, FormControlLabel, Grid } from '@mui/material'
+import { Box, Checkbox, FormControlLabel, Grid, Typography } from '@mui/material'
 import { TScopeDto } from '@peacock-renderer-models'
+import _ from 'lodash'
 
 // REFERENCE: https://developer.spotify.com/documentation/general/guides/authorization/scopes/
 
@@ -36,15 +37,17 @@ const USER_READ_PRIVATE = 'user-read-private'
 type CONTROL = {
   value: TScopeDto[]
   onChange: (...event: any[]) => void
+  error?: string
 }
 
 export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
-  const { value, onChange } = props
+  const { value, onChange, error } = props
 
   const handleParentOnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>, children: string[]) => {
     if(event.target.checked){
       const result = children.map(item => ({ name: item }))
-      onChange([...value, ...result])
+      const newValue = _.uniqBy([...value, ...result], 'name')
+      onChange(newValue)
     }else{
       const result = value.filter(item => !children.includes(item.name))
       onChange(result)
@@ -63,6 +66,10 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
 
   return(
     <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant={'h6'} gutterBottom component={'div'}>Scopes:</Typography>
+        <Typography style={{ color: 'red' }} variant={'caption'} display={'block'} gutterBottom>{error}</Typography>
+      </Grid>
       <Grid item xs={6}>
         <FormControlLabel
           control={
@@ -73,7 +80,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={IMAGES}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === UGC_IMAGE_UPLOAD)} onChange={e => handleChildOnChange(e, UGC_IMAGE_UPLOAD)} />
             }
@@ -91,7 +98,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={SPOTIFY_CONNECT}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === USER_READ_PLAYBACK_STATE)} onChange={e => handleChildOnChange(e, USER_READ_PLAYBACK_STATE)}/>}
             label={USER_READ_PLAYBACK_STATE}
@@ -116,7 +123,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={PLAYBACK}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === APP_REMOTE_CONTROL)} onChange={e => handleChildOnChange(e, APP_REMOTE_CONTROL)}/>}
             label={APP_REMOTE_CONTROL}
@@ -137,7 +144,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={PLAYLISTS}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === PLAYLIST_READ_PRIVATE)} onChange={e => handleChildOnChange(e, PLAYLIST_READ_PRIVATE)}/>}
             label={PLAYLIST_READ_PRIVATE}
@@ -166,7 +173,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={FOLLOW}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === USER_FOLLOW_MODIFY)} onChange={e => handleChildOnChange(e, USER_FOLLOW_MODIFY)}/>}
             label={USER_FOLLOW_MODIFY}
@@ -187,7 +194,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={LISTENING_HISTORY}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === USER_READ_PLAYBACK_POSITION)} onChange={e => handleChildOnChange(e, USER_READ_PLAYBACK_POSITION)}/>}
             label={USER_READ_PLAYBACK_POSITION}
@@ -212,7 +219,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={LIBRARY}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === USER_LIBRARY_MODIFY)} onChange={e => handleChildOnChange(e, USER_LIBRARY_MODIFY)}/>}
             label={USER_LIBRARY_MODIFY}
@@ -233,7 +240,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           }
           label={USERS}
         />
-        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3}}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', ml: 3 }}>
           <FormControlLabel
             control={<Checkbox checked={!!value.find(item => item.name === USER_READ_EMAIL)} onChange={e => handleChildOnChange(e, USER_READ_EMAIL)}/>}
             label={USER_READ_EMAIL}
