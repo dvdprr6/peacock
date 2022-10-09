@@ -10,7 +10,6 @@ import { useAuthorization } from './hooks'
 
 const Authorization: FC<TPropsFromRedux> = (props) => {
   const { authTokens } = props
-  const [refreshing, setRefreshing] = useState<boolean>(false)
   const {
     openNew, openEdit, openDelete, openView,
     loading, selectedRow,
@@ -20,8 +19,7 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
   const dispatch: TAppDispatch = useDispatch()
 
   useEffect(() => {
-    setRefreshing(true)
-    dispatch(getAuthTokens()).then(() => setRefreshing(false))
+    dispatch(getAuthTokens()).then()
   }, [])
 
   return(
@@ -47,7 +45,7 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
         <MaterialTable
           icons={MATERIAL_TABLE_ICONS}
           title={'Auth'}
-          isLoading={refreshing}
+          isLoading={authTokens.isLoading}
           columns={[
             {
               title: 'Name',
@@ -102,7 +100,7 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
           onClose={() => onCloseNew()}
           onSubmit={onSubmit}
           title={'Create Auth'}
-          loading={loading}
+          loading={authTokens.isLoading}
         />
       </Grid>
     </Grid>
