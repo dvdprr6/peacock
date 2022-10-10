@@ -10,9 +10,8 @@ public class AuthTokenDto implements IDto {
     private String refreshToken;
     private String accessToken;
     private String url;
-
+    private String status;
     private List<ScopeDto> scopes;
-
     public AuthTokenDto(){}
 
     public Long getId() {
@@ -69,6 +68,14 @@ public class AuthTokenDto implements IDto {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public List<ScopeDto> getScopes() {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getAuthTokens, saveAuthTokens } from './actions'
+import { getAuthTokens, saveAuthTokens, activateSpotifyAccessTokens } from './actions'
 import { AUTH_TOKENS_SLICE } from '@peacock-renderer-utils'
 import { TAuthTokenDto } from '@peacock-renderer-models'
 import { STATE } from '../types'
@@ -27,6 +27,13 @@ export const authTokenSlice = createSlice({
       state.value = action.payload
       state.isLoading = false
     }).addCase(saveAuthTokens.rejected, state => {
+      state.isLoading = false
+    }).addCase(activateSpotifyAccessTokens.pending, state => {
+      state.isLoading = true
+    }).addCase(activateSpotifyAccessTokens.fulfilled, (state, action) => {
+      state.value = action.payload
+      state.isLoading = false
+    }).addCase(activateSpotifyAccessTokens.rejected, state => {
       state.isLoading = false
     })
   }

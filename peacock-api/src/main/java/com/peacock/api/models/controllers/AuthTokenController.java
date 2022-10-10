@@ -36,15 +36,12 @@ public class AuthTokenController extends RestUtils {
         return created(authTokenDtoList);
     }
 
-    @JsonRequestMapping(value = "/initialize", method = RequestMethod.POST)
+    @JsonRequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity initialize(@RequestBody AuthTokenDto authTokenDto){
+    public ResponseEntity<List<AuthTokenDto>> updateAuth(@RequestBody AuthTokenDto authTokenDto){
+        authTokenService.updateAuth(authTokenDto);
+        List<AuthTokenDto> authTokenDtoList = authTokenService.getAuthTokens();
 
-        try{
-            //authTokenService.addAuthTokens(authTokenDto);
-            return created();
-        }catch(Exception e){
-            return internalServerError();
-        }
+        return ok(authTokenDtoList);
     }
 }

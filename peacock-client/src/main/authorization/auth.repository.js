@@ -26,11 +26,34 @@ async function getAll(){
   }, [REQ_TIMEOUT])
 }
 
-function createAuth(body){
+function createAuth(authToken){
   return new Promise(resolve => {
     const request = net.request({method: HTTP_POST, url: LOCALHOST_URL + PATH_AUTH_TOKEN})
     request.setHeader('Content-Type', 'application/json')
-    request.write(JSON.stringify(body), 'utf-8')
+    request.write(JSON.stringify(authToken), 'utf-8')
+
+    try {
+      request.on('response', response => {
+        response.on('data', chunk => {
+          const data = Buffer.from(chunk.toJSON().data)
+          const authTokenDto = JSON.parse(data.toString('utf8'))
+
+          resolve(authTokenDto)
+        })
+      })
+    } catch (e) {
+      console.log(e)
+    } finally {
+      request.end()
+    }
+  }, [REQ_TIMEOUT])
+}
+
+function updateAuth(authToken){
+  return new Promise(resolve => {
+    const request = net.request({method: HTTP_PUT, url: LOCALHOST_URL + PATH_AUTH_TOKEN})
+    request.setHeader('Content-Type', 'application/json')
+    request.write(JSON.stringify(authToken), 'utf-8')
 
     try {
       request.on('response', response => {
@@ -51,5 +74,6 @@ function createAuth(body){
 
 module.exports = {
   getAll,
-  createAuth
+  createAuth,
+  updateAuth
 }

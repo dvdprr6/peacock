@@ -29,6 +29,7 @@ export const AUTH_TOKENS_SLICE = 'authTokens'
 /** THUNK CONSTANTS */
 export const GET_AUTH_TOKENS_THUNK = 'get/authTokens'
 export const POST_AUTH_TOKENS_THUNK = 'post/authTokens'
+export const ACTIVATE_AUTH_TOKENS_THUNK = 'activate/authTokens'
 
 export const MATERIAL_TABLE_ICONS: Icons<any> = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),

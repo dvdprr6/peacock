@@ -31,5 +31,10 @@ public class AuthTokenService {
 
         authTokenRepository.insert(authTokenEntity);
     }
+
+    public void updateAuth(AuthTokenDto authTokenDto){
+        AuthTokenEntity authTokenEntity = ModelConverter.convertToEntity(authTokenDto, AuthTokenEntity.class);
+        authTokenRepository.update(authTokenEntity);
+    }
 }
 

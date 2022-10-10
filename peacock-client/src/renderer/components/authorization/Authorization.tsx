@@ -7,15 +7,17 @@ import { useDispatch } from 'react-redux'
 import MaterialTable, { MTableToolbar } from '@material-table/core'
 import { MATERIAL_TABLE_ICONS, MATERIAL_TABLE_OPTIONS } from '@peacock-renderer-utils'
 import { useAuthorization } from './hooks'
+import { CommonDialog } from  '@peacock-renderer-component-commons'
+import { TAuthTokenDto } from '@peacock-renderer-models'
 
 const Authorization: FC<TPropsFromRedux> = (props) => {
   const { authTokens } = props
   const {
-    openNew, openEdit, openDelete, openView,
-    loading, selectedRow,
-    onOpenNew, onCloseNew, onOpenEdit, onCloseEdit, onOpenDelete, onCloseDelete, onOpenView, onCloseView,
-    onSubmit, onEdit, onDelete
-  } = useAuthorization()
+    openNew, openEdit, openDelete, openView, openActivate,
+    selectedRow,
+    onOpenNew, onCloseNew, onOpenEdit, onCloseEdit, onOpenDelete, onCloseDelete, onOpenView, onCloseView, onOpenActivate, onCloseActivate,
+    onSubmit, onEdit, onDelete, onActivate
+  } = useAuthorization(authTokens.isLoading)
   const dispatch: TAppDispatch = useDispatch()
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
       <Grid item xs={12}>
         <MaterialTable
           icons={MATERIAL_TABLE_ICONS}
-          title={'Auth'}
+          title={'Auth Tokens'}
           isLoading={authTokens.isLoading}
           columns={[
             {
@@ -58,6 +60,11 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
             {
               title: 'Client Secret',
               field: 'clientSecret',
+            },
+            {
+              title: 'Status',
+              field: 'status',
+              render: rowData => <Typography style={rowData.status === 'NOT ACTIVE' ? { color: 'red' } : { color: 'green'}} variant={'caption'} display={'block'} gutterBottom>{rowData.status}</Typography>
             }
           ]}
           data={authTokens.value}
@@ -65,7 +72,7 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
             {
               icon: () => <PlayArrow />,
               tooltip: 'Activate',
-              onClick: (event, rowData: any) => undefined
+              onClick: (event, rowData: any) => onOpenActivate(rowData as TAuthTokenDto)
             },
             {
               icon: () => <Edit />,
@@ -101,6 +108,16 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
           onSubmit={onSubmit}
           title={'Create Auth'}
           loading={authTokens.isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <CommonDialog
+          title={'Activate'}
+          description={'Are you sure you want to activate?'}
+          open={openActivate}
+          loading={authTokens.isLoading}
+          onClose={onCloseActivate}
+          onSubmit={onActivate}
         />
       </Grid>
     </Grid>

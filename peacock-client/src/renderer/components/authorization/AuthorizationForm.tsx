@@ -30,6 +30,7 @@ const AuthorizationForm: FC<{
     setValue('refreshToken', initialValues?.refreshToken)
     setValue('accessToken', initialValues?.accessToken)
     setValue('url', initialValues?.url)
+    setValue('status', initialValues?.status || 'NOT ACTIVE')
   }, [initialValues])
 
   useEffect(() => {

@@ -1,20 +1,22 @@
-const { createAuth, getAll } = require('./auth.repository')
+const { createAuth, getAll, updateAuth } = require('./auth.repository')
 
-async function setAccessTokens(authToken){
+async function saveSpotifyAccessTokens(authToken){
   return new Promise(async resolve => {
     const authTokenDto = await createAuth(authToken)
     resolve(authTokenDto)
   })
 }
 
-async function getAuthTokens(){
-  return new Promise(async resolve => {
-    const authTokensDto = await getAll()
-    resolve(authTokensDto)
-  })
+async function getSpotifyAccessTokens(){
+  return await getAll()
+}
+
+async function updateSpotifyAccessTokens(authToken){
+  return await updateAuth(authToken)
 }
 
 module.exports = {
-  setAccessTokens,
-  getAuthTokens
+  saveSpotifyAccessTokens,
+  getSpotifyAccessTokens,
+  updateSpotifyAccessTokens
 }

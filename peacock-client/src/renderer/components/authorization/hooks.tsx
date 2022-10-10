@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { TAuthTokenDto, TComponentBaseHookImpl } from '@peacock-renderer-models'
 import { useDispatch } from 'react-redux'
-import { TAppDispatch, saveAuthTokens } from '@peacock-renderer-reducers'
+import { TAppDispatch, saveAuthTokens, activateSpotifyAccessTokens } from '@peacock-renderer-reducers'
 
-export function useAuthorization(): TComponentBaseHookImpl<TAuthTokenDto> {
+export function useAuthorization(loading: boolean): TComponentBaseHookImpl<TAuthTokenDto> & {
+  openActivate: boolean
+  onOpenActivate: (form: TAuthTokenDto) => void
+  onCloseActivate: () => void
+  onActivate: () => void
+} {
 
   const [openNew, setOpenNew] = useState<boolean>(false)
   const [openEdit, setOpenEdit] = useState<boolean>(false)
   const [openDelete, setOpenDelete] = useState<boolean>(false)
   const [openView, setOpenView] = useState<boolean>(false)
-  const [openPlay, setOpenPlay] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [openActivate, setOpenActivate] = useState<boolean>(false)
   const [selectedRow, setSelectedRow] = useState<TAuthTokenDto>({} as TAuthTokenDto)
   const dispatch: TAppDispatch = useDispatch()
 
@@ -19,7 +23,7 @@ export function useAuthorization(): TComponentBaseHookImpl<TAuthTokenDto> {
       setOpenNew(false)
       setOpenEdit(false)
       setOpenDelete(false)
-      setOpenPlay(false)
+      setOpenActivate(false)
     }
   }, [loading])
 
@@ -47,18 +51,16 @@ export function useAuthorization(): TComponentBaseHookImpl<TAuthTokenDto> {
 
   const onCloseView = () => setOpenView(false)
 
-  const onOpenPlay = (rowData: TAuthTokenDto) => {
+  const onOpenActivate = (rowData: TAuthTokenDto) => {
     setSelectedRow(rowData)
-    setOpenPlay(true)
+    setOpenActivate(true)
   }
 
-  const onClosePlay = () => setOpenPlay(false)
+  const onCloseActivate = () => setOpenActivate(false)
 
   const onSubmit = (form: TAuthTokenDto) => {
-    //console.log(JSON.stringify(form))
-    setLoading(true)
-    console.log(JSON.stringify(form))
-    dispatch(saveAuthTokens(form)).then(() => setLoading(false))
+    const formCopy = { ...form, status: 'NOT ACTIVE' }
+    dispatch(saveAuthTokens(formCopy)).then()
   }
 
   const onEdit = (form: TAuthTokenDto) => {
@@ -71,9 +73,8 @@ export function useAuthorization(): TComponentBaseHookImpl<TAuthTokenDto> {
     // dispatch(removeJobThunk(selectedRow)).then(() => setLoading(false))
   }
 
-  const onPlay = () => {
-    // setLoading(true)
-    // dispatch(runJobThunk(selectedRow)).then(() => setLoading(false))
+  const onActivate = () => {
+    dispatch(activateSpotifyAccessTokens(selectedRow)).then()
   }
 
   return {
@@ -81,8 +82,8 @@ export function useAuthorization(): TComponentBaseHookImpl<TAuthTokenDto> {
     openEdit,
     openDelete,
     openView,
+    openActivate,
 
-    loading,
     selectedRow,
 
     onOpenNew,
@@ -93,9 +94,12 @@ export function useAuthorization(): TComponentBaseHookImpl<TAuthTokenDto> {
     onCloseDelete,
     onOpenView,
     onCloseView,
+    onOpenActivate,
+    onCloseActivate,
 
     onSubmit,
     onEdit,
-    onDelete
+    onDelete,
+    onActivate
   }
 }

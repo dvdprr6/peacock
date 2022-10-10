@@ -7,6 +7,7 @@ export type TAuthTokenDto = TPrimaryKey & {
   refreshToken?: string
   accessToken?: string
   url?: string
+  status: string
   scopes: TScopeDto[]
 }
 
@@ -25,7 +26,6 @@ export type TComponentBaseHookImpl<T> = {
   openEdit: boolean
   openDelete: boolean
   openView: boolean
-  loading: boolean
   selectedRow: T
   onOpenNew: () => void
   onCloseNew: () => void

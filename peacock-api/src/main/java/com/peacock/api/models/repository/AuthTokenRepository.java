@@ -47,4 +47,8 @@ public class AuthTokenRepository {
     public void insert(AuthTokenEntity authTokenEntity) {
         sessionFactory.getCurrentSession().persist(authTokenEntity);
     }
+
+    public void update(AuthTokenEntity authTokenEntity){
+        sessionFactory.getCurrentSession().update(authTokenEntity);
+    }
 }

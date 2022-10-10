@@ -3,12 +3,6 @@ const IPC_GET_AUTH_TOKENS = 'IPC_GET_AUTH_TOKENS'
 const IPC_ACTIVATE_AUTHORIZATION = 'IPC_ACTIVATE_AUTHORIZATION'
 const IPC_POST_AUTH_TOKENS = 'IPC_POST_AUTH_TOKENS'
 
-/** SCOPES */
-// REFERENCE: https://developer.spotify.com/documentation/general/guides/authorization/scopes/
-const SCOPES_LISTENING_HISTORY = 'user-read-recently-played user-top-read user-read-playback-position'
-const SCOPES_USERS = 'user-read-email user-read-private'
-const SCOPES_SPOTIFY_CONNECT = 'user-read-playback-state user-read-currently-playing'
-
 /** URL */
 const LOCALHOST_URL = 'http://localhost:8080/peacock-api/api'
 const HTTP_GET = 'GET'
@@ -22,11 +16,7 @@ const REQ_TIMEOUT = 1000
 module.exports = {
   IPC_GET_AUTH_TOKENS,
   IPC_ACTIVATE_AUTHORIZATION,
-  IPC_SAVE_AUTH_TOKENS: IPC_POST_AUTH_TOKENS,
-
-  SCOPES_LISTENING_HISTORY,
-  SCOPES_USERS,
-  SCOPES_SPOTIFY_CONNECT,
+  IPC_POST_AUTH_TOKENS,
 
   LOCALHOST_URL,
   HTTP_GET,

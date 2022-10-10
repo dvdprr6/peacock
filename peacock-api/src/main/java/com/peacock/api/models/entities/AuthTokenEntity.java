@@ -30,6 +30,9 @@ public class AuthTokenEntity implements IEntity{
     @Column(name = "url")
     private String url;
 
+    @Column(name = "status")
+    private String status;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @OrderBy(value = "id ASC")
     @JoinColumn(name = "auth_token_id")
@@ -91,6 +94,14 @@ public class AuthTokenEntity implements IEntity{
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Set<ScopeEntity> getScopes() {

@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import {
   getAuthTokens,
   saveAuthTokens,
+  activateSpotifyAccessTokens,
   authTokenSlice
 } from './authorization'
 
@@ -27,5 +28,6 @@ export type TPropsFromRedux = ConnectedProps<typeof connector>
 
 export {
   getAuthTokens,
-  saveAuthTokens
+  saveAuthTokens,
+  activateSpotifyAccessTokens
 }

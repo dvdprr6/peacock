@@ -12,6 +12,7 @@ create table pc_auth_token
     refresh_token text collate pg_catalog."default",
     access_token text collate pg_catalog."default",
     url text collate pg_catalog."default",
+    status text collate pg_catalog."default" not null,
     constraint "PC_AUTHENTICATION_pkey" primary key (id)
 )
 with (
