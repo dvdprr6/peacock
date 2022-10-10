@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC, useCallback, useEffect } from 'react'
 import { Grid, Typography, Button, Divider, IconButton } from '@mui/material'
 import { Add, PlayArrow, Edit, Delete, Refresh } from '@mui/icons-material'
 import AuthorizationForm from './AuthorizationForm'
@@ -23,6 +23,10 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
   useEffect(() => {
     dispatch(getAuthTokens()).then()
   }, [])
+
+  const onRefresh = useCallback(() => {
+    dispatch(getAuthTokens()).then()
+  }, [authTokens])
 
   return(
     <Grid container spacing={2}>
@@ -92,7 +96,7 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
               <div>
                 <MTableToolbar {...props} />
                 <div style={{padding: '0px 10px', textAlign: 'left'}}>
-                  <IconButton onClick={() => undefined}>
+                  <IconButton onClick={() => onRefresh()}>
                     <Refresh />
                   </IconButton>
                 </div>
