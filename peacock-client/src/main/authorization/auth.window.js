@@ -1,8 +1,7 @@
 const { BrowserWindow, net } = require('electron')
-const { SCOPES_SPOTIFY_CONNECT } = require('../utils/constants')
 const { updateSpotifyAccessTokens } = require('./auth.services')
 
-const authorizationWindow = async (spotifyAccessDto) => {
+const spotifyAccessWindow = async (spotifyAccessDto) => {
   let window = new BrowserWindow({
     width: 1100,
     height: 600,
@@ -85,5 +84,5 @@ const authorizationWindow = async (spotifyAccessDto) => {
 }
 
 module.exports = {
-  authorizationWindow
+  spotifyAccessWindow
 }

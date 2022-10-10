@@ -1,6 +1,6 @@
 package com.peacock.api.models.repository;
 
-import com.peacock.api.models.entities.AuthTokenEntity;
+import com.peacock.api.models.entities.SpotifyAccessTokenEntity;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,25 +15,25 @@ import java.util.List;
 
 @Repository
 @Transactional(value = "hibernateTransactionManager")
-public class AuthTokenRepository {
+public class SpotifyAccessTokenRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public List<AuthTokenEntity> getAll(){
+    public List<SpotifyAccessTokenEntity> getAll(){
         CriteriaBuilder criteriaBuilder = sessionFactory.getCurrentSession().getCriteriaBuilder();
-        CriteriaQuery<AuthTokenEntity> query = criteriaBuilder.createQuery(AuthTokenEntity.class);
+        CriteriaQuery<SpotifyAccessTokenEntity> query = criteriaBuilder.createQuery(SpotifyAccessTokenEntity.class);
 
-        Root<AuthTokenEntity> root = query.from(AuthTokenEntity.class);
+        Root<SpotifyAccessTokenEntity> root = query.from(SpotifyAccessTokenEntity.class);
 
         query.orderBy(criteriaBuilder.asc(root.get("id")));
 
         EntityManager entityManager = sessionFactory.createEntityManager();
 
-        List<AuthTokenEntity> authTokenEntityList = new ArrayList<>();
+        List<SpotifyAccessTokenEntity> spotifyAccessTokenEntityList = new ArrayList<>();
 
         try{
-            authTokenEntityList = entityManager.createQuery(query).getResultList();
+            spotifyAccessTokenEntityList = entityManager.createQuery(query).getResultList();
         }catch(Exception e){
             e.printStackTrace();
         }finally {
@@ -41,14 +41,14 @@ public class AuthTokenRepository {
             entityManager.close();
         }
 
-        return authTokenEntityList;
+        return spotifyAccessTokenEntityList;
     }
 
-    public void insert(AuthTokenEntity authTokenEntity) {
-        sessionFactory.getCurrentSession().persist(authTokenEntity);
+    public void insert(SpotifyAccessTokenEntity spotifyAccessTokenEntity) {
+        sessionFactory.getCurrentSession().persist(spotifyAccessTokenEntity);
     }
 
-    public void update(AuthTokenEntity authTokenEntity){
-        sessionFactory.getCurrentSession().update(authTokenEntity);
+    public void update(SpotifyAccessTokenEntity spotifyAccessTokenEntity){
+        sessionFactory.getCurrentSession().update(spotifyAccessTokenEntity);
     }
 }

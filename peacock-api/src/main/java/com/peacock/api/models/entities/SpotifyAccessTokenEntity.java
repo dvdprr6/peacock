@@ -1,25 +1,48 @@
-package com.peacock.api.models.dto;
+package com.peacock.api.models.entities;
 
-import java.util.List;
 
-public class AuthTokenDto implements IDto {
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "pc_spotify_access_tokens")
+public class SpotifyAccessTokenEntity implements IEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    private String name;
-    private String clientId;
-    private String clientSecret;
-    private String refreshToken;
-    private String accessToken;
-    private String url;
-    private String status;
-    private List<ScopeDto> scopes;
-    public AuthTokenDto(){}
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "client_id")
+    private String clientId;
+
+    @Column(name = "client_secret")
+    private String clientSecret;
+
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
+    @Column(name = "access_token")
+    private String accessToken;
+
+    @Column(name = "status")
+    private String status;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy(value = "id ASC")
+    @JoinColumn(name = "auth_token_id")
+    private Set<ScopeEntity> scopes;
+
+    public SpotifyAccessTokenEntity() {}
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -62,14 +85,6 @@ public class AuthTokenDto implements IDto {
         this.accessToken = accessToken;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -78,11 +93,11 @@ public class AuthTokenDto implements IDto {
         this.status = status;
     }
 
-    public List<ScopeDto> getScopes() {
+    public Set<ScopeEntity> getScopes() {
         return scopes;
     }
 
-    public void setScopes(List<ScopeDto> scopes) {
+    public void setScopes(Set<ScopeEntity> scopes) {
         this.scopes = scopes;
     }
 }

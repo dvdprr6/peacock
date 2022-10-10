@@ -1,51 +1,25 @@
-package com.peacock.api.models.entities;
+package com.peacock.api.models.dto;
 
+import java.util.List;
 
-import javax.persistence.*;
-import java.util.Set;
-
-@Entity
-@Table(name = "pc_auth_token")
-public class AuthTokenEntity implements IEntity{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class SpotifyAccessTokenDto implements IDto {
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "client_id")
     private String clientId;
-
-    @Column(name = "client_secret")
     private String clientSecret;
-
-    @Column(name = "refresh_token")
     private String refreshToken;
-
-    @Column(name = "access_token")
     private String accessToken;
-
-    @Column(name = "url")
     private String url;
-
-    @Column(name = "status")
     private String status;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @OrderBy(value = "id ASC")
-    @JoinColumn(name = "auth_token_id")
-    private Set<ScopeEntity> scopes;
-
-    public AuthTokenEntity() {}
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private List<ScopeDto> scopes;
+    public SpotifyAccessTokenDto(){}
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -104,11 +78,11 @@ public class AuthTokenEntity implements IEntity{
         this.status = status;
     }
 
-    public Set<ScopeEntity> getScopes() {
+    public List<ScopeDto> getScopes() {
         return scopes;
     }
 
-    public void setScopes(Set<ScopeEntity> scopes) {
+    public void setScopes(List<ScopeDto> scopes) {
         this.scopes = scopes;
     }
 }

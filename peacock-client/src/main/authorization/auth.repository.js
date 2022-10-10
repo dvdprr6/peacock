@@ -26,7 +26,7 @@ async function getAll(){
   }, [REQ_TIMEOUT])
 }
 
-function createAuth(authToken){
+function save(authToken){
   return new Promise(resolve => {
     const request = net.request({method: HTTP_POST, url: LOCALHOST_URL + PATH_AUTH_TOKEN})
     request.setHeader('Content-Type', 'application/json')
@@ -49,7 +49,7 @@ function createAuth(authToken){
   }, [REQ_TIMEOUT])
 }
 
-function updateAuth(authToken){
+function update(authToken){
   return new Promise(resolve => {
     const request = net.request({method: HTTP_PUT, url: LOCALHOST_URL + PATH_AUTH_TOKEN})
     request.setHeader('Content-Type', 'application/json')
@@ -74,6 +74,6 @@ function updateAuth(authToken){
 
 module.exports = {
   getAll,
-  createAuth,
-  updateAuth
+  save,
+  update
 }

@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
-const { initAuth } = require('./main/authorization/auth.handler')
+const { initSpotifyAccess } = require('./main/authorization/auth.handler')
 
 let mainWindow = null
 
@@ -30,8 +30,7 @@ function createWindow() {
 const showWindow = () => {
     createWindow()
 
-    initAuth()
-    // initPlayer()
+    initSpotifyAccess()
 }
 
 app.on('ready', showWindow)
