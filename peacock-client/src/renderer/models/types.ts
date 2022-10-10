@@ -6,7 +6,6 @@ export type TAuthTokenDto = TPrimaryKey & {
   clientSecret: string
   refreshToken?: string
   accessToken?: string
-  url?: string
   status: string
   scopes: TScopeDto[]
 }

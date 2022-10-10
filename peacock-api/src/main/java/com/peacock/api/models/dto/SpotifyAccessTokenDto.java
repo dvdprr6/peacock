@@ -9,7 +9,6 @@ public class SpotifyAccessTokenDto implements IDto {
     private String clientSecret;
     private String refreshToken;
     private String accessToken;
-    private String url;
     private String status;
     private List<ScopeDto> scopes;
     public SpotifyAccessTokenDto(){}
@@ -61,15 +60,6 @@ public class SpotifyAccessTokenDto implements IDto {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public String getStatus() {
         return status;
     }
