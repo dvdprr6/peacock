@@ -44,4 +44,13 @@ public class SpotifyAccessTokenController extends RestUtils {
 
         return ok(spotifyAccessTokenDtoList);
     }
+
+    @JsonRequestMapping(method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<List<SpotifyAccessTokenDto>> deleteAuth(@RequestBody SpotifyAccessTokenDto spotifyAccessTokenDto){
+        spotifyAccessTokenService.deleteAuth(spotifyAccessTokenDto);
+        List<SpotifyAccessTokenDto> spotifyAccessTokenDtoList = spotifyAccessTokenService.getAuthTokens();
+
+        return ok(spotifyAccessTokenDtoList);
+    }
 }

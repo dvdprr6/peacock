@@ -97,7 +97,7 @@ const AuthorizationForm: FC<{
           </Grid>
           <Grid item xs={12}>
             <Controller
-              defaultValue={initialValues?.scopes || []}
+              defaultValue={initialValues?.scopes ? [...initialValues?.scopes] : []}
               name={'scopes'}
               control={control}
               render={({ field: { value, onChange }, formState: { errors } }) => (

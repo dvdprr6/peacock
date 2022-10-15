@@ -12,7 +12,11 @@ async function getSpotifyAccessTokens(){
 }
 
 async function updateSpotifyAccessTokens(authToken){
-  return await update(authToken)
+  //return await update(authToken)
+  return new Promise(async resolve => {
+    const authTokenDto = await update(authToken)
+    resolve(authTokenDto)
+  })
 }
 
 module.exports = {

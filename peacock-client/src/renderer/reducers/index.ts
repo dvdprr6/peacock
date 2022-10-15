@@ -4,6 +4,7 @@ import {
   getAuthTokens,
   saveAuthTokens,
   activateSpotifyAccessTokens,
+  updateAuthTokens,
   authTokenSlice
 } from './authorization'
 
@@ -29,5 +30,6 @@ export type TPropsFromRedux = ConnectedProps<typeof connector>
 export {
   getAuthTokens,
   saveAuthTokens,
-  activateSpotifyAccessTokens
+  activateSpotifyAccessTokens,
+  updateAuthTokens
 }

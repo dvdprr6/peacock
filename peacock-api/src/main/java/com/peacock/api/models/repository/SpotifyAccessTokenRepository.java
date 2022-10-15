@@ -51,4 +51,8 @@ public class SpotifyAccessTokenRepository {
     public void update(SpotifyAccessTokenEntity spotifyAccessTokenEntity){
         sessionFactory.getCurrentSession().update(spotifyAccessTokenEntity);
     }
+
+    public void delete(SpotifyAccessTokenEntity spotifyAccessTokenEntity){
+        sessionFactory.getCurrentSession().delete(spotifyAccessTokenEntity);
+    }
 }

@@ -16,6 +16,7 @@ import {
 export const IPC_GET_SPOTIFY_ACCESS_TOKENS = 'IPC_GET_SPOTIFY_ACCESS_TOKENS'
 export const IPC_ACTIVATE_SPOTIFY_ACCESS_TOKENS = 'IPC_ACTIVATE_SPOTIFY_ACCESS_TOKENS'
 export const IPC_POST_SPOTIFY_ACCESS_TOKENS = 'IPC_POST_SPOTIFY_ACCESS_TOKENS'
+export const IPC_PUT_SPOTIFY_ACCESS_TOKENS = 'IPC_PUT_SPOTIFY_ACCESS_TOKENS'
 
 /** REDIRECT CONSTANTS */
 export const DASHBOARD_REDIRECT = '/dashboard'
@@ -29,6 +30,7 @@ export const AUTH_TOKENS_SLICE = 'authTokens'
 /** THUNK CONSTANTS */
 export const GET_AUTH_TOKENS_THUNK = 'get/authTokens'
 export const POST_AUTH_TOKENS_THUNK = 'post/authTokens'
+export const PUT_AUTH_TOKENS_THUNK = 'put/authTokens'
 export const ACTIVATE_AUTH_TOKENS_THUNK = 'activate/authTokens'
 
 export const MATERIAL_TABLE_ICONS: Icons<any> = {

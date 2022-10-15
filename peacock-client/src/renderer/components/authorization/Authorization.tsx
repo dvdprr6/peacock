@@ -81,12 +81,12 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
             {
               icon: () => <Edit />,
               tooltip: 'Edit',
-              onClick: (event, rowData: any) => undefined
+              onClick: (event, rowData: any) => onOpenEdit(rowData as TAuthTokenDto)
             },
             {
               icon: () => <Delete />,
               tooltip: 'Delete',
-              onClick: (event, rowData: any) => undefined
+              onClick: (event, rowData: any) => onOpenDelete(rowData as TAuthTokenDto)
             }
           ]}
           options={MATERIAL_TABLE_OPTIONS}
@@ -110,8 +110,18 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
           open={openNew}
           onClose={() => onCloseNew()}
           onSubmit={onSubmit}
-          title={'Create Auth'}
+          title={'New Spotify Access Tokens'}
           loading={authTokens.isLoading}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <AuthorizationForm
+          open={openEdit}
+          onClose={() => onCloseEdit()}
+          onSubmit={onEdit}
+          title={'Edit Spotify Access Tokens'}
+          loading={authTokens.isLoading}
+          initialValues={selectedRow}
         />
       </Grid>
       <Grid item xs={12}>
@@ -122,6 +132,16 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
           loading={authTokens.isLoading}
           onClose={onCloseActivate}
           onSubmit={onActivate}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <CommonDialog
+          title={'Delete'}
+          description={'Are you sure you want to delete this access?'}
+          open={openDelete}
+          loading={authTokens.isLoading}
+          onClose={onCloseDelete}
+          onSubmit={onDelete}
         />
       </Grid>
     </Grid>

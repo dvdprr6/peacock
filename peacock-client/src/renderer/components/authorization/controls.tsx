@@ -235,7 +235,7 @@ export const ScopesCheckboxControl: FC<CONTROL> = (props) => {
           control={
             <Checkbox
               checked={!!value.find(item => item.name === USER_READ_EMAIL) && !!value.find(item => item.name === USER_READ_PRIVATE)}
-              onChange={(e => handleParentOnChange(e, [USER_LIBRARY_MODIFY, USER_LIBRARY_READ]))}
+              onChange={(e => handleParentOnChange(e, [USER_READ_EMAIL, USER_READ_PRIVATE]))}
             />
           }
           label={USERS}

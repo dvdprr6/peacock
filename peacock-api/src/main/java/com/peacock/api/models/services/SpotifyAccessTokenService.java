@@ -36,5 +36,10 @@ public class SpotifyAccessTokenService {
         SpotifyAccessTokenEntity spotifyAccessTokenEntity = ModelConverter.convertToEntity(spotifyAccessTokenDto, SpotifyAccessTokenEntity.class);
         spotifyAccessTokenRepository.update(spotifyAccessTokenEntity);
     }
+
+    public void deleteAuth(SpotifyAccessTokenDto spotifyAccessTokenDto){
+        SpotifyAccessTokenEntity spotifyAccessTokenEntity = ModelConverter.convertToEntity(spotifyAccessTokenDto, SpotifyAccessTokenEntity.class);
+        spotifyAccessTokenRepository.delete(spotifyAccessTokenEntity);
+    }
 }
 
