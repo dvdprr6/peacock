@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { TAuthTokenDto, TComponentBaseHookImpl } from '@peacock-renderer-models'
 import { useDispatch } from 'react-redux'
 import { TAppDispatch, saveAuthTokens, activateSpotifyAccessTokens, updateAuthTokens } from '@peacock-renderer-reducers'
+import _ from 'lodash'
 
 export function useAuthorization(loading: boolean): TComponentBaseHookImpl<TAuthTokenDto> & {
   openActivate: boolean
@@ -21,7 +22,7 @@ export function useAuthorization(loading: boolean): TComponentBaseHookImpl<TAuth
   useEffect(() => {
     if(!loading){
       setOpenNew(false)
-      setOpenEdit(false)
+      //setOpenEdit(false)
       setOpenDelete(false)
       setOpenActivate(false)
     }
@@ -64,7 +65,7 @@ export function useAuthorization(loading: boolean): TComponentBaseHookImpl<TAuth
   }
 
   const onEdit = (form: TAuthTokenDto) => {
-    dispatch(updateAuthTokens(form)).then()
+    dispatch(updateAuthTokens(form)).then(() => setOpenEdit(false))
   }
 
   const onDelete = () => {

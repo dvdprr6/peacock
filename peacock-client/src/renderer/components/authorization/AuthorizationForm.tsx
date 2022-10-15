@@ -26,17 +26,12 @@ const AuthorizationForm: FC<{
   const { control, handleSubmit, reset, setValue } = useForm<TSpotifyAccessForm>({ resolver: yupResolver(schema) })
 
   useEffect(() => {
+    reset()
     setValue('id', initialValues?.id)
     setValue('refreshToken', initialValues?.refreshToken)
     setValue('accessToken', initialValues?.accessToken)
     setValue('status', initialValues?.status || 'NOT ACTIVE')
   }, [initialValues])
-
-  useEffect(() => {
-    if(!open){
-      reset() // clear form
-    }
-  }, [open])
 
   return(
     <Dialog open={open} maxWidth={'xl'} fullWidth>
@@ -97,7 +92,7 @@ const AuthorizationForm: FC<{
           </Grid>
           <Grid item xs={12}>
             <Controller
-              defaultValue={initialValues?.scopes ? [...initialValues?.scopes] : []}
+              defaultValue={initialValues?.scopes || []}
               name={'scopes'}
               control={control}
               render={({ field: { value, onChange }, formState: { errors } }) => (

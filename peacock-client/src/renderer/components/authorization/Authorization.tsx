@@ -71,7 +71,7 @@ const Authorization: FC<TPropsFromRedux> = (props) => {
               render: rowData => <Typography style={rowData.status === 'NOT ACTIVE' ? { color: 'red' } : { color: 'green'}} variant={'caption'} display={'block'} gutterBottom>{rowData.status}</Typography>
             }
           ]}
-          data={authTokens.value}
+          data={authTokens.value || []}
           actions={[
             {
               icon: () => <PlayArrow />,
