@@ -72,8 +72,33 @@ function update(authToken){
   }, [REQ_TIMEOUT])
 }
 
+function deleteToken(authToken){
+  return new Promise(resolve => {
+    const request = net.request({method: HTTP_DELETE, url: LOCALHOST_URL + PATH_AUTH_TOKEN})
+    request.setHeader('Content-Type', 'application/json')
+    request.write(JSON.stringify(authToken), 'utf-8')
+
+    try {
+      request.on('response', response => {
+        response.on('data', chunk => {
+          const data = Buffer.from(chunk.toJSON().data)
+          const authTokenDto = JSON.parse(data.toString('utf8'))
+
+          resolve(authTokenDto)
+        })
+      })
+    } catch (e) {
+      console.log(e)
+    } finally {
+      request.end()
+    }
+  }, [REQ_TIMEOUT])
+}
+
+
 module.exports = {
   getAll,
   save,
-  update
+  update,
+  deleteToken
 }

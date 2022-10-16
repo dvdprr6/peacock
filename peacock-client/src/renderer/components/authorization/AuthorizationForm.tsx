@@ -33,6 +33,12 @@ const AuthorizationForm: FC<{
     setValue('status', initialValues?.status || 'NOT ACTIVE')
   }, [initialValues])
 
+  useEffect(() => {
+    if(!open){
+      reset()
+    }
+  }, [open])
+
   return(
     <Dialog open={open} maxWidth={'xl'} fullWidth>
       <DialogTitle>

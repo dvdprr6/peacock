@@ -5,6 +5,7 @@ import {
   saveAuthTokens,
   activateSpotifyAccessTokens,
   updateAuthTokens,
+  deleteAuthTokens,
   authTokenSlice
 } from './authorization'
 
@@ -31,5 +32,6 @@ export {
   getAuthTokens,
   saveAuthTokens,
   activateSpotifyAccessTokens,
-  updateAuthTokens
+  updateAuthTokens,
+  deleteAuthTokens
 }
