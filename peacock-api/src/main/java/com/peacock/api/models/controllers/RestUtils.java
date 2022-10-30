@@ -3,6 +3,7 @@ package com.peacock.api.models.controllers;
 import com.peacock.api.commons.dto.PayloadCollectionDto;
 import com.peacock.api.commons.dto.PayloadSingleDto;
 import com.peacock.api.models.dto.IDto;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -37,7 +38,6 @@ public abstract class RestUtils {
     }
 
     /**
-     * @deprecated
      * @param <DTO>
      * @return
      */
@@ -46,13 +46,16 @@ public abstract class RestUtils {
     }
 
     /**
-     * @deprecated
      * @param <DTO>
      * @param dto
      * @return
      */
     protected <DTO extends IDto> ResponseEntity<DTO> ok(DTO dto){
         return new ResponseEntity<DTO>(dto, HttpStatus.OK);
+    }
+
+    protected ResponseEntity ok(HttpHeaders httpHeaders){
+        return new ResponseEntity(httpHeaders, HttpStatus.OK);
     }
 
     /**
