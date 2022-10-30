@@ -26,7 +26,6 @@ const AuthorizationForm: FC<{
   const { control, handleSubmit, reset, setValue } = useForm<TSpotifyAccessForm>({ resolver: yupResolver(schema) })
 
   useEffect(() => {
-    reset()
     setValue('id', initialValues?.id)
     setValue('refreshToken', initialValues?.refreshToken)
     setValue('accessToken', initialValues?.accessToken)
@@ -35,7 +34,7 @@ const AuthorizationForm: FC<{
 
   useEffect(() => {
     if(!open){
-      reset()
+      reset(initialValues)
     }
   }, [open])
 

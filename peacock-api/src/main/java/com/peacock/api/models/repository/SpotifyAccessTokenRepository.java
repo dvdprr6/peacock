@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -20,7 +21,7 @@ public class SpotifyAccessTokenRepository {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public List<SpotifyAccessTokenEntity> getAll(){
+    public SpotifyAccessTokenEntity get(){
         CriteriaBuilder criteriaBuilder = sessionFactory.getCurrentSession().getCriteriaBuilder();
         CriteriaQuery<SpotifyAccessTokenEntity> query = criteriaBuilder.createQuery(SpotifyAccessTokenEntity.class);
 
@@ -30,10 +31,12 @@ public class SpotifyAccessTokenRepository {
 
         EntityManager entityManager = sessionFactory.createEntityManager();
 
-        List<SpotifyAccessTokenEntity> spotifyAccessTokenEntityList = new ArrayList<>();
+        SpotifyAccessTokenEntity spotifyAccessTokenEntity = null;
 
-        try{
-            spotifyAccessTokenEntityList = entityManager.createQuery(query).getResultList();
+        try {
+            spotifyAccessTokenEntity = entityManager.createQuery(query).getSingleResult();
+        }catch(NoResultException e){
+            e.printStackTrace();
         }catch(Exception e){
             e.printStackTrace();
         }finally {
@@ -41,7 +44,7 @@ public class SpotifyAccessTokenRepository {
             entityManager.close();
         }
 
-        return spotifyAccessTokenEntityList;
+        return spotifyAccessTokenEntity;
     }
 
     public void insert(SpotifyAccessTokenEntity spotifyAccessTokenEntity) {

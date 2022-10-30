@@ -16,14 +16,16 @@ public class SpotifyAccessTokenService {
     @Autowired
     private SpotifyAccessTokenRepository spotifyAccessTokenRepository;
 
-    public List<SpotifyAccessTokenDto> getAuthTokens(){
-        List<SpotifyAccessTokenEntity> spotifyAccessTokenEntityList = spotifyAccessTokenRepository.getAll();
+    public SpotifyAccessTokenDto getAuthTokens(){
 
-        List<SpotifyAccessTokenDto> spotifyAccessTokenDtoList = spotifyAccessTokenEntityList.stream()
-                .map(entity -> ModelConverter.convertToDto(entity, SpotifyAccessTokenDto.class))
-                .collect(Collectors.toList());
+        SpotifyAccessTokenEntity spotifyAccessTokenEntity = spotifyAccessTokenRepository.get();
 
-        return spotifyAccessTokenDtoList;
+        if(spotifyAccessTokenEntity != null){
+            SpotifyAccessTokenDto spotifyAccessTokenDto = ModelConverter.convertToDto(spotifyAccessTokenEntity, SpotifyAccessTokenDto.class);
+            return spotifyAccessTokenDto;
+        }else{
+            return null;
+        }
     }
 
     public void saveAuth(SpotifyAccessTokenDto spotifyAccessTokenDto){

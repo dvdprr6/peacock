@@ -36,7 +36,7 @@ public class SpotifyAccessTokenController extends RestUtils {
 
     @JsonRequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<SpotifyAccessTokenDto> saveAuth(@RequestBody SpotifyAccessTokenDto spotifyAccessTokenDto){
+    public ResponseEntity saveAuth(@RequestBody SpotifyAccessTokenDto spotifyAccessTokenDto){
         spotifyAccessTokenService.saveAuth(spotifyAccessTokenDto);
 
         SpotifyAccessTokenDto spotifyAccessAuthTokenDto = spotifyAccessTokenService.getAuthTokens();
@@ -46,7 +46,7 @@ public class SpotifyAccessTokenController extends RestUtils {
 
     @JsonRequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<SpotifyAccessTokenDto> updateAuth(@RequestBody SpotifyAccessTokenDto spotifyAccessTokenDto){
+    public ResponseEntity updateAuth(@RequestBody SpotifyAccessTokenDto spotifyAccessTokenDto){
         spotifyAccessTokenService.updateAuth(spotifyAccessTokenDto);
         SpotifyAccessTokenDto spotifyAccessAuthTokenDto = spotifyAccessTokenService.getAuthTokens();
 
@@ -55,10 +55,15 @@ public class SpotifyAccessTokenController extends RestUtils {
 
     @JsonRequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
-    public ResponseEntity<SpotifyAccessTokenDto> deleteAuth(@RequestBody SpotifyAccessTokenDto spotifyAccessTokenDto){
+    public ResponseEntity deleteAuth(@RequestBody SpotifyAccessTokenDto spotifyAccessTokenDto){
         spotifyAccessTokenService.deleteAuth(spotifyAccessTokenDto);
         SpotifyAccessTokenDto spotifyAccessAuthTokenDto = spotifyAccessTokenService.getAuthTokens();
 
-        return ok(spotifyAccessAuthTokenDto);
+        if(spotifyAccessAuthTokenDto != null){
+            return ok(spotifyAccessAuthTokenDto);
+        }else{
+            EmptyJsonBodyDto emptyJsonBodyDto = new EmptyJsonBodyDto();
+            return ok(emptyJsonBodyDto);
+        }
     }
 }
