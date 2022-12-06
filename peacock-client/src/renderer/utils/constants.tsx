@@ -19,14 +19,18 @@ export const IPC_POST_SPOTIFY_ACCESS_TOKENS = 'IPC_POST_SPOTIFY_ACCESS_TOKENS'
 export const IPC_PUT_SPOTIFY_ACCESS_TOKENS = 'IPC_PUT_SPOTIFY_ACCESS_TOKENS'
 export const IPC_DELETE_SPOTIFY_ACCESS_TOKENS = 'IPC_DELETE_SPOTIFY_ACCESS_TOKENS'
 
+export const IPC_GET_PLAYER_CURRENT_TRACK = 'IPC_GET_PLAYER_CURRENT_TRACK'
+
 /** REDIRECT CONSTANTS */
 export const DASHBOARD_REDIRECT = '/dashboard'
 export const HISTORY_REDIRECT = '/history'
 export const AUTHORIZATION_REDIRECT = '/authorization'
 export const USER_REDIRECT = '/user'
+export const PLAYER_REDIRECT = '/player'
 
 /** REDUCER CONSTANTS */
 export const AUTH_TOKENS_SLICE = 'authTokens'
+export const CURRENT_TRACK_SLICE = 'CURRENT_TRACK_SLICE'
 
 /** THUNK CONSTANTS */
 export const GET_AUTH_TOKENS_THUNK = 'get/authTokens'
@@ -34,6 +38,8 @@ export const POST_AUTH_TOKENS_THUNK = 'post/authTokens'
 export const PUT_AUTH_TOKENS_THUNK = 'put/authTokens'
 export const ACTIVATE_AUTH_TOKENS_THUNK = 'activate/authTokens'
 export const DELETE_AUTH_TOKENS_THUNK = 'delete/authTokens'
+
+export const GET_CURRENT_TRACK = 'get/currentTrack'
 
 export const MATERIAL_TABLE_ICONS: Icons<any> = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref}/>),

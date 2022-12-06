@@ -15,12 +15,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import VpnKeyIcon from '@mui/icons-material/VpnKey'
 import HistoryIcon from '@mui/icons-material/History'
 import PersonIcon from '@mui/icons-material/Person'
+import RadioIcon from '@mui/icons-material/Radio';
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Container from '@mui/material/Container'
-import { DASHBOARD_REDIRECT, HISTORY_REDIRECT, AUTHORIZATION_REDIRECT, USER_REDIRECT } from '@peacock-renderer-utils'
+import { DASHBOARD_REDIRECT, HISTORY_REDIRECT, AUTHORIZATION_REDIRECT, USER_REDIRECT, PLAYER_REDIRECT } from '@peacock-renderer-utils'
 
 const drawerWidth = 240
 
@@ -142,6 +143,14 @@ const Navigation: FC<{ component: ReactNode }> = (props) => {
                 <HistoryIcon />
               </ListItemIcon>
               <ListItemText primary={'History'} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding sx={{ display: 'block' }}>
+            <ListItemButton sx={{ minHeight: 48, justifyContent: open ? 'initial' : 'center', px: 2.5 }} href={PLAYER_REDIRECT}>
+              <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}>
+                <RadioIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Player'} sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding sx={{ display: 'block' }}>

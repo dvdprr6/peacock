@@ -4,8 +4,8 @@ import { ThemeProvider } from '@mui/material/styles'
 import { store } from '@peacock-renderer-reducers'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Home, DashboardPage, AuthorizationPage, HistoryPage, UserPage } from '@peacock-renderer-components'
-import { DASHBOARD_REDIRECT, AUTHORIZATION_REDIRECT, HISTORY_REDIRECT, USER_REDIRECT } from '@peacock-renderer-utils'
+import { Home, DashboardPage, AuthorizationPage, HistoryPage, UserPage, PlayerPage } from '@peacock-renderer-components'
+import { DASHBOARD_REDIRECT, AUTHORIZATION_REDIRECT, HISTORY_REDIRECT, USER_REDIRECT, PLAYER_REDIRECT } from '@peacock-renderer-utils'
 
 const theme = createTheme({
   palette: {
@@ -73,6 +73,7 @@ const App = () => {
             <Route path={'/'} element={<Home />} />
             <Route path={DASHBOARD_REDIRECT} element={<DashboardPage />} />
             <Route path={HISTORY_REDIRECT} element={<HistoryPage />} />
+            <Route path={PLAYER_REDIRECT} element={<PlayerPage />} />
             <Route path={USER_REDIRECT} element={<UserPage />} />
             <Route path={AUTHORIZATION_REDIRECT} element={<AuthorizationPage />} />
           </Routes>

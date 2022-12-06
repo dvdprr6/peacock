@@ -1,5 +1,6 @@
 package com.peacock.api.models.repository;
 
+import com.peacock.api.models.dto.CurrentlyPlayingDto;
 import com.peacock.api.models.dto.RefreshTokenDto;
 import com.peacock.api.models.dto.SpotifyAccessTokenDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,8 +30,15 @@ public class SpotifyApiRepository {
         urlParams.put("grant_type", "refresh_token");
         urlParams.put("refresh_token", refreshToken);
 
+        String clientId = spotifyAccessTokenDto.getClientId();
+        String clientSecret = spotifyAccessTokenDto.getClientSecret();
+
+        String clientIdAndClientSecret = clientId + ":" + clientSecret;
+
+        String base64String = Base64.getEncoder().encodeToString(clientIdAndClientSecret.getBytes());
+
         HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("");
+        headers.setBasicAuth(base64String);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         RequestEntity<String> request = RequestEntity
@@ -47,9 +56,21 @@ public class SpotifyApiRepository {
         return spotifyAccessTokenDto;
     }
 
-    public void getCurrentlyPlayingTrack(SpotifyAccessTokenDto spotifyAccessTokenDto) throws Exception{
+    public CurrentlyPlayingDto getCurrentlyPlayingTrack(SpotifyAccessTokenDto spotifyAccessTokenDto) throws Exception{
         String url = "https://api.spotify.com/v1/me/player/currently-playing";
         String accessToken = spotifyAccessTokenDto.getAccessToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        RequestEntity request = RequestEntity.get(new URI(url)).headers(headers).build();
+
+        ResponseEntity response = restTemplate.exchange(request, CurrentlyPlayingDto.class);
+
+        CurrentlyPlayingDto currentlyPlayingDto = (CurrentlyPlayingDto) response.getBody();
+
+        return currentlyPlayingDto;
     }
 
 }
